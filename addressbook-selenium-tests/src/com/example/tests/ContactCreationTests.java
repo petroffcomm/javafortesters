@@ -21,21 +21,21 @@ public class ContactCreationTests extends TestBase {
     contact.birth_month = "December"; 
     contact.birth_year = "1980";
 	  
-    openMainPage();
-    gotoContactEditPage();   
-    fillContactForm(contact);
-    submitContactCreation();
-    gotoHomePage();
+    app.getNavigationHelper().openMainPage();
+    app.getContactHelper().initContactCreation();   
+    app.getContactHelper().fillContactForm(contact);
+    app.getContactHelper().submitContactCreation();
+    app.getContactHelper().gotoHomePage();
   }
   
   @Test
   public void testEmptyContactCreation() throws Exception {
     ContactData contact = new ContactData();
 	  
-    openMainPage();
-    gotoContactEditPage();   
-    fillContactForm(contact);
-    submitContactCreation();
-    gotoHomePage();
+    app.getNavigationHelper().openMainPage();
+    app.getContactHelper().initContactCreation();   
+    app.getContactHelper().fillContactForm(contact);
+    app.getContactHelper().submitContactCreation();
+    app.getContactHelper().gotoHomePage();
   }
 }
