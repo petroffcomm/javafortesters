@@ -37,4 +37,28 @@ public class ContactHelper extends BaseHelper{
 		type(By.name("phone2"), contact.second_home_phone);
 	}
 
+	private void selectContactByIndex(int index) {
+		click(By.xpath("//table[@id='maintable']/tbody/tr["+ (index + 1) +"]/td[1]/input[@type='checkbox']"));
+	}
+	
+	public void initContactModification(int index) {
+		selectContactByIndex(index);
+		//table header row has the 1st index, so to access data row we need to increment index position by 1		
+		click(By.xpath("//table[@id='maintable']/tbody/tr["+ (index + 1) +"]/td[7]//img[@alt='Edit']"));
+	}
+
+	public void submitContactModification() {
+		click(By.xpath("//input[@type='submit'][@value='Update']"));
+	}
+
+	public void submitContactDeletion() {
+		click(By.xpath("//input[@type='submit'][@value='Delete']"));
+	}
+	
+	public void deleteContact(int index) {
+		initContactModification(index);
+		submitContactDeletion();
+	}
+
+
 }

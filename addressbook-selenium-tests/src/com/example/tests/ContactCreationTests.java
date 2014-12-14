@@ -22,7 +22,7 @@ public class ContactCreationTests extends TestBase {
     contact.birth_year = "1980";
 	  
     app.getNavigationHelper().openMainPage();
-    app.getContactHelper().initContactCreation();   
+    app.getContactHelper().initContactCreation();
     app.getContactHelper().fillContactForm(contact);
     app.getContactHelper().submitContactCreation();
     app.getContactHelper().gotoHomePage();
