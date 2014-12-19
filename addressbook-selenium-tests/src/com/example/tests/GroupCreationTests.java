@@ -11,10 +11,6 @@ public class GroupCreationTests extends TestBase{
   
   @Test(dataProvider = "randomValidGroupGenerator")
   public void testGroupCreationWithValidData(GroupData group) throws Exception {
-    /*GroupData group = new GroupData();
-    group.name = "group name 1";
-    group.header = "header 1";
-    group.footer = "footer 1";*/
 
     app.getNavigationHelper().openMainPage();
     app.getNavigationHelper().gotoGroupsPage();

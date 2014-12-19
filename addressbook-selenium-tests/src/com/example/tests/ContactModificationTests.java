@@ -10,7 +10,7 @@ public class ContactModificationTests extends TestBase{
 	    contact.fname = "firstName modified";
 	    
 		app.getNavigationHelper().openMainPage();
-	    app.getContactHelper().initContactModification(1);	    
+		app.getContactHelper().initContactModification(1);	    
 		app.getContactHelper().fillContactForm(contact);
 	    app.getContactHelper().submitContactModification();
 	    app.getContactHelper().gotoHomePage();

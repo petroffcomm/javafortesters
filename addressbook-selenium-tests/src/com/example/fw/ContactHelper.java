@@ -1,6 +1,10 @@
 package com.example.fw;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import com.example.tests.ContactData;
 
@@ -60,5 +64,27 @@ public class ContactHelper extends BaseHelper{
 		submitContactDeletion();
 	}
 
+	public List<ContactData> getContacts() {
+		List<ContactData> contacts = new ArrayList<ContactData>();
+		
+		List<WebElement> rows = driver.findElements(By.xpath("//table[@id='maintable']/tbody/tr[(position() > 1) and (position() < last())]"));
+		
+		for (WebElement row : rows) {
+			ContactData contact = new ContactData();
+			/*System.out.println(row.getTagName());
+			System.out.println(row.getText());
+			System.out.println(row.toString());*/
+			String fname = row.findElement(By.xpath("//tr/td[3]")).getText();
+			
+			contact.fname = fname;
+			contact.lname = row.findElement(By.xpath("//td[2]")).getText();
+			contact.first_email = row.findElement(By.xpath("//td[4]")).getText();
+			contact.mobile_phone = row.findElement(By.xpath("//td[5]")).getText();
+			
+			contacts.add(contact);			
+		}
+		
+		return contacts;
+	}
 
 }
