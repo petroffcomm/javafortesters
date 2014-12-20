@@ -26,11 +26,12 @@ public class GroupHelper extends BaseHelper{
 	
 	/*
 	This method returns field values from "group edit form".
-	Implemented for case when some of fields were not filled due to emptiness of some input values
-	(see realization of method type(By locator, String text) in BaseHelper.java)
-	and it's necessary to get actual information about values were actually contained by form 
+	Implemented for case when some of fields on form were not changed due to emptiness of some
+	input values (see realization of method type(By locator, String text) in BaseHelper.java)
+	in GroupData class instance but their actual values is needed for further comparison
+	of actual and expected results.	
+	In this case it's necessary to get actual information about values were actually contained by form 
 	at the submission moment.
-	This information is needed for further comparison of actual and expected results 
 	*/
 	public GroupData getGroupFormData() {
 		GroupData group = new GroupData();

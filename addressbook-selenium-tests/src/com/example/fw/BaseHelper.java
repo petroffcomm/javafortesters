@@ -52,7 +52,7 @@ public abstract class BaseHelper {
 	  }
 
 	protected void type(By locator, String text) {
-		if ((text != null) && (text != "")) {
+		if (text != null) {
 			driver.findElement(locator).clear();
 		    driver.findElement(locator).sendKeys(text);			
 		}		
@@ -63,7 +63,7 @@ public abstract class BaseHelper {
 	}
 	
 	protected void selectByText(By locator, String text) {
-		if ((text != null) && (text != "")) {
+		if (text != null) {
 			new Select(driver.findElement(locator)).selectByVisibleText(text);
 		}		
 	}	

@@ -25,7 +25,7 @@ public class ContactModificationTests extends TestBase{
 	    
 		app.getContactHelper().initContactModification(index);	    
 		app.getContactHelper().fillContactForm(contact);
-		ContactData contactFilled = app.getContactHelper().getContactFormData();  
+		ContactData contactFilled = app.getContactHelper().getContactFormData();
 	    app.getContactHelper().submitContactModification();
 	    app.getContactHelper().gotoHomePage();
 	    
@@ -36,7 +36,7 @@ public class ContactModificationTests extends TestBase{
 	    oldList.add(contactFilled);
 	    Collections.sort(oldList);
 	    Collections.sort(newList);
-	    assertEquals(newList, oldList);	    
+	    assertEquals(newList, oldList);
 	}
 
 }

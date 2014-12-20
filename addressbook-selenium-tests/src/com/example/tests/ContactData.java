@@ -16,20 +16,8 @@ public class ContactData implements Comparable<ContactData>{
 	public String birth_year;
 	
 	public ContactData(){
-		//empty selections for drop down lists
-		this.fname = "";
-		this.lname = "";
-		this.primary_addr = "";
-		this.second_addr = "";
-		this.home_phone = "";
-		this.mobile_phone = "";
-		this.work_phone = "";
-		this.first_email = "";
-		this.second_email = "";
-		this.second_home_phone = "";
 		this.birth_day = "-";
 		this.birth_month = "-";
-		this.birth_year = "";
 	}
 	
 	public ContactData(String fname, String lname,
@@ -55,7 +43,8 @@ public class ContactData implements Comparable<ContactData>{
 	@Override
 	public String toString() {
 		return "ContactData [fname=" + fname + ", lname=" + lname
-				+ ", home_phone=" + home_phone + "]";
+				+ ", work_phone=" + work_phone + ", first_email=" + first_email
+				+ "]";
 	}
 
 	@Override
@@ -81,22 +70,22 @@ public class ContactData implements Comparable<ContactData>{
 			return false;
 		ContactData other = (ContactData) obj;
 		if (first_email == null) {
-			if (other.first_email != null)
+			if ((other.first_email != null) && (!other.first_email.equals("")))
 				return false;
 		} else if (!first_email.equals(other.first_email))
 			return false;
 		if (fname == null) {
-			if (other.fname != null)
+			if ((other.fname != null) && (!other.fname.equals("")))
 				return false;
 		} else if (!fname.equals(other.fname))
 			return false;
 		if (lname == null) {
-			if (other.lname != null)
+			if ((other.lname != null) && (!other.lname.equals("")))
 				return false;
 		} else if (!lname.equals(other.lname))
 			return false;
 		if (home_phone == null) {
-			if (other.home_phone != null)
+			if ((other.home_phone != null) && (!other.home_phone.equals("")))
 				return false;
 		} else if (!home_phone.equals(other.home_phone))
 			return false;
@@ -105,13 +94,13 @@ public class ContactData implements Comparable<ContactData>{
 
 	@Override
 	public int compareTo(ContactData other) {
-		int result = fname.compareToIgnoreCase(other.fname);
+		int result = comparisonWithCheckForNULL(fname, other.fname);
 		if (result == 0){
-			result = lname.compareToIgnoreCase(other.lname);
+			result = comparisonWithCheckForNULL(lname, other.lname);
 			if(result == 0){
-				result = first_email.compareTo(other.first_email);
+				result = comparisonWithCheckForNULL(first_email, other.first_email);
 				if(result == 0){
-					result = home_phone.compareTo(other.home_phone);
+					result = comparisonWithCheckForNULL(home_phone, other.home_phone);
 					if(result == 0){
 						return result;
 					}
@@ -119,5 +108,22 @@ public class ContactData implements Comparable<ContactData>{
 			}			
 		}
 		return result;
-	}	
+	}
+	
+	private int comparisonWithCheckForNULL(Object obj1, Object obj2){
+		String param1 = (String) obj1;
+		String param2 = (String) obj2;
+		
+		int result = 0;
+		if ((obj1 == null) && (obj2 == null)){
+			result = 0;
+		} else if((obj1 == null) && (obj2 != null) && (param2 != "")){
+			result = -1;
+		} else if((param1 != "") && (obj1 != null) && (obj2 == null)){
+			result = 1;
+		} else if((obj1 != null) && (obj2 != null)){
+			result = param1.compareToIgnoreCase(param2);
+		}
+		return result;
+	}
 }
