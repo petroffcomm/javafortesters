@@ -24,6 +24,7 @@ public class GroupModificationTests extends TestBase{
 	    //actions
 	    app.getGroupHelper().initGroupModification(index);
 		app.getGroupHelper().fillGroupForm(group);
+		GroupData groupFilled = app.getGroupHelper().getGroupFormData();
 	    app.getGroupHelper().submitGroupModification();
 	    app.getGroupHelper().returnToGroupsPage();
 	    
@@ -32,10 +33,9 @@ public class GroupModificationTests extends TestBase{
 	    
 	    //compare states
 	    oldList.remove(index);
-	    oldList.add(group);
+	    oldList.add(groupFilled);
 	    Collections.sort(oldList);
 	    Collections.sort(newList);
 	    assertEquals(newList, oldList);
 	}
-
 }

@@ -23,7 +23,24 @@ public class GroupHelper extends BaseHelper{
 	    type(By.name("group_header"), group.header);
 	    type(By.name("group_footer"), group.footer);
 	}
-
+	
+	/*
+	This method returns field values from "group edit form".
+	Implemented for case when some of fields were not filled due to emptiness of some input values
+	(see realization of method type(By locator, String text) in BaseHelper.java)
+	and it's necessary to get actual information about how the form was filled in fact.
+	This information is needed for further comparison of 
+	*/
+	public GroupData getGroupFormData() {
+		GroupData group = new GroupData();
+		
+		group.name = getFieldValue(By.name("group_name"));
+		group.header = getFieldText(By.name("group_header"));
+		group.footer = getFieldText(By.name("group_footer"));
+		
+		return group;
+	}
+	
 	public void submitGroupCreation() {
 		click(By.name("submit"));
 	}
@@ -64,5 +81,4 @@ public class GroupHelper extends BaseHelper{
 		
 		return groups;
 	}
-
 }
