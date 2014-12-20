@@ -17,8 +17,19 @@ public class ContactData implements Comparable<ContactData>{
 	
 	public ContactData(){
 		//empty selections for drop down lists
+		this.fname = "";
+		this.lname = "";
+		this.primary_addr = "";
+		this.second_addr = "";
+		this.home_phone = "";
+		this.mobile_phone = "";
+		this.work_phone = "";
+		this.first_email = "";
+		this.second_email = "";
+		this.second_home_phone = "";
 		this.birth_day = "-";
 		this.birth_month = "-";
+		this.birth_year = "";
 	}
 	
 	public ContactData(String fname, String lname,
@@ -44,21 +55,19 @@ public class ContactData implements Comparable<ContactData>{
 	@Override
 	public String toString() {
 		return "ContactData [fname=" + fname + ", lname=" + lname
-				+ ", mobile_phone=" + mobile_phone + "]";
+				+ ", home_phone=" + home_phone + "]";
 	}
-
-
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		/*result = prime * result
+		result = prime * result
 				+ ((first_email == null) ? 0 : first_email.hashCode());
 		result = prime * result + ((fname == null) ? 0 : fname.hashCode());
 		result = prime * result + ((lname == null) ? 0 : lname.hashCode());
 		result = prime * result
-				+ ((mobile_phone == null) ? 0 : mobile_phone.hashCode());*/
+				+ ((home_phone == null) ? 0 : home_phone.hashCode());
 		return result;
 	}
 
@@ -86,17 +95,29 @@ public class ContactData implements Comparable<ContactData>{
 				return false;
 		} else if (!lname.equals(other.lname))
 			return false;
-		if (mobile_phone == null) {
-			if (other.mobile_phone != null)
+		if (home_phone == null) {
+			if (other.home_phone != null)
 				return false;
-		} else if (!mobile_phone.equals(other.mobile_phone))
+		} else if (!home_phone.equals(other.home_phone))
 			return false;
 		return true;
 	}
 
 	@Override
 	public int compareTo(ContactData other) {
-		return fname.compareToIgnoreCase(other.fname);
+		int result = fname.compareToIgnoreCase(other.fname);
+		if (result == 0){
+			result = lname.compareToIgnoreCase(other.lname);
+			if(result == 0){
+				result = first_email.compareTo(other.first_email);
+				if(result == 0){
+					result = home_phone.compareTo(other.home_phone);
+					if(result == 0){
+						return result;
+					}
+				}
+			}			
+		}
+		return result;
 	}	
-	
 }
