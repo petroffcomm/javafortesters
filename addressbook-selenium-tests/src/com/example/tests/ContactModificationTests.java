@@ -10,10 +10,8 @@ import org.testng.annotations.Test;
 
 public class ContactModificationTests extends TestBase{
 	
-	@Test
-	public void modifySomeContact(){
-		ContactData contact = new ContactData();
-	    contact.fname = "firstName modified";
+	@Test(dataProvider = "randomValidContactGenerator")
+	public void modifySomeContact(ContactData contact){
 	    
 		app.getNavigationHelper().openMainPage();
 		

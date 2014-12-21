@@ -9,23 +9,9 @@ import static org.testng.Assert.assertEquals;
 
 public class ContactCreationTests extends TestBase {
 
-  @Test
-  public void testNonEmptyContactCreation() throws Exception {
-    ContactData contact = new ContactData();
-    contact.fname = "FName 1";
-    contact.lname = "LName 1";
-    contact.primary_addr = "Address 1";
-    contact.second_addr = "Secondary address";
-    contact.home_phone = "998941234567";
-    contact.second_home_phone = "99893135689";
-    contact.mobile_phone = "998937865454";
-    contact.work_phone = "2349873629";
-    contact.first_email = "email@test.com";
-    contact.second_email = "elamil2@test.com";
-    contact.birth_day = "1";
-    contact.birth_month = "December"; 
-    contact.birth_year = "1980";
-	  
+  @Test(dataProvider = "randomValidContactGenerator")
+  public void testContactCreationWithValidData(ContactData contact) throws Exception {
+	
     app.getNavigationHelper().openMainPage();
     
     //save old state
@@ -45,26 +31,4 @@ public class ContactCreationTests extends TestBase {
     assertEquals(newList, oldList);
   }
   
-  @Test
-  public void testEmptyContactCreation() throws Exception {
-    ContactData contact = new ContactData();
-	  
-    app.getNavigationHelper().openMainPage();
-    
-    //save old state
-    List<ContactData> oldList = app.getContactHelper().getContacts();
-    
-    app.getContactHelper().initContactCreation();   
-    app.getContactHelper().fillContactForm(contact);
-    app.getContactHelper().submitContactCreation();
-    app.getContactHelper().gotoHomePage();
-    
-    //save new state
-    List<ContactData> newList = app.getContactHelper().getContacts();
-    
-    oldList.add(contact);
-    Collections.sort(oldList);
-    Collections.sort(newList);
-    assertEquals(newList, oldList);
-  }
 }
