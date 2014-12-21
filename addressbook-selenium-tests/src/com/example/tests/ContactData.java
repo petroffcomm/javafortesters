@@ -38,12 +38,12 @@ public class ContactData implements Comparable<ContactData>{
 		this.birth_day = birth_day;
 		this.birth_month = birth_month;
 		this.birth_year = birth_year;
-	}
-	
+	}	
+
 	@Override
 	public String toString() {
 		return "ContactData [fname=" + fname + ", lname=" + lname
-				+ ", work_phone=" + work_phone + ", first_email=" + first_email
+				+ ", home_phone=" + home_phone + ", first_email=" + first_email
 				+ "]";
 	}
 
@@ -91,6 +91,38 @@ public class ContactData implements Comparable<ContactData>{
 			return false;
 		return true;
 	}
+	
+	/*@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ContactData other = (ContactData) obj;
+		if (first_email == null) {
+			if (other.first_email != null)
+				return false;
+		} else if (!first_email.equals(other.first_email))
+			return false;
+		if (fname == null) {
+			if (other.fname != null)
+				return false;
+		} else if (!fname.equals(other.fname))
+			return false;
+		if (lname == null) {
+			if (other.lname != null)
+				return false;
+		} else if (!lname.equals(other.lname))
+			return false;
+		if (home_phone == null) {
+			if (other.home_phone != null)
+				return false;
+		} else if (!home_phone.equals(other.home_phone))
+			return false;
+		return true;
+	}*/
 
 	@Override
 	public int compareTo(ContactData other) {

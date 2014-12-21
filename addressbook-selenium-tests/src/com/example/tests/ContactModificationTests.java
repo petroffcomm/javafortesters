@@ -34,6 +34,7 @@ public class ContactModificationTests extends TestBase{
 	    
 	    oldList.remove(index);
 	    oldList.add(contactFilled);
+	    //oldList.add(contact);
 	    Collections.sort(oldList);
 	    Collections.sort(newList);
 	    assertEquals(newList, oldList);
