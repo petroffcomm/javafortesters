@@ -29,13 +29,12 @@ public class TestBase {
 	public Iterator<Object[]> randomValidGroupGenerator(){
 		List<Object[]> list = new ArrayList<Object[]>();
 		for (int i = 0; i < 5; i++){
-			GroupData group = new GroupData();
 			String prefix = "test";
-			
-			group.name = generateRandomString(prefix);
-			group.header = generateRandomString(prefix);
-			group.footer = generateRandomString(prefix);
-			
+			GroupData group = new GroupData()
+			.withName(generateRandomString(prefix))
+			.withHeader(generateRandomString(prefix))
+			.withFooter(generateRandomString(prefix));
+						
 			list.add(new Object[]{group});
 		}
 		return list.iterator();

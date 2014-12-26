@@ -14,14 +14,16 @@ public class GroupHelper extends BaseHelper{
 		super(manager);
 	}
 
-	public void initGroupCreating() {
+	public GroupHelper initGroupCreating() {
 		click(By.name("new"));
+		return this;
 	}
 
-	public void fillGroupForm(GroupData group) {
-	    type(By.name("group_name"), group.name);
-	    type(By.name("group_header"), group.header);
-	    type(By.name("group_footer"), group.footer);
+	public GroupHelper fillGroupForm(GroupData group) {
+	    type(By.name("group_name"), group.getName());
+	    type(By.name("group_header"), group.getHeader());
+	    type(By.name("group_footer"), group.getFooter());
+	    return this;
 	}
 	
 	/*
@@ -34,39 +36,43 @@ public class GroupHelper extends BaseHelper{
 	at the submission moment.
 	*/
 	public GroupData getGroupFormData() {
-		GroupData group = new GroupData();
-		
-		group.name = getFieldValue(By.name("group_name"));
-		group.header = getFieldText(By.name("group_header"));
-		group.footer = getFieldText(By.name("group_footer"));
+		GroupData group = new GroupData()
+		.withName(getFieldValue(By.name("group_name")))
+		.withHeader(getFieldText(By.name("group_header")))
+		.withFooter(getFieldText(By.name("group_footer")));
 		
 		return group;
 	}
 	
-	public void submitGroupCreation() {
+	public GroupHelper submitGroupCreation() {
 		click(By.name("submit"));
+		return this;
 	}
 
-	public void returnToGroupsPage() {
+	public GroupHelper returnToGroupsPage() {
 		click(By.linkText("group page"));
+		return this;
 	}
 
 	private void selectGroupByIndex(int index) {
 		click(By.xpath("//input[@name='selected[]'][" + (index+1) + "]"));
 	}
 	
-	public void deleteGroup(int index) {
+	public GroupHelper deleteGroup(int index) {
 		selectGroupByIndex(index);
 		click(By.name("delete"));
+		return this;
 	}
 
-	public void initGroupModification(int index) {
+	public GroupHelper initGroupModification(int index) {
 		selectGroupByIndex(index);
-		click(By.name("edit"));		
+		click(By.name("edit"));
+		return this;
 	}
 
-	public void submitGroupModification() {
+	public GroupHelper submitGroupModification() {
 		click(By.name("update"));
+		return this;
 	}
 
 	public List<GroupData> getGroups() {
@@ -75,10 +81,11 @@ public class GroupHelper extends BaseHelper{
 		List<WebElement> checkboxes = driver.findElements(By.name("selected[]"));
 		
 		for (WebElement checkbox : checkboxes) {
-			GroupData group = new GroupData();
+			
 			String title = checkbox.getAttribute("title");			
-			group.name = title.substring("Select (".length(), title.length() - ")".length());
-			groups.add(group);
+			String name = title.substring("Select (".length(), title.length() - ")".length());
+			
+			groups.add(new GroupData().withName(name));
 		}
 		
 		return groups;
