@@ -11,9 +11,8 @@ import org.testng.annotations.Test;
 public class ContactModificationTests extends TestBase{
 	
 	@Test(dataProvider = "randomValidContactGenerator")
-	public void modifySomeContact(ContactData contact){
-	    
-		app.getNavigationHelper().openMainPage();
+	public void modifySomeContact(ContactData contact){	    
+		app.navigateTo().mainPage();
 		
 	    //save old state
 	    List<ContactData> oldList = app.getContactHelper().getContacts();

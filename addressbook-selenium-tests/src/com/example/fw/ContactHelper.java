@@ -14,20 +14,30 @@ public class ContactHelper extends BaseHelper{
 	public ContactHelper(ApplicationManager manager) {
 		super(manager);
 	}
+	
+	public void createContact(ContactData contact) {
+		initContactCreation();
+	    fillContactForm(contact);
+	    submitContactCreation();
+	    gotoHomePage();
+	}
 
-	public void initContactCreation() {
+	public ContactHelper initContactCreation() {
 		click(By.linkText("add new"));
+		return this;
 	}
 
-	public void submitContactCreation() {
+	public ContactHelper submitContactCreation() {
 		click(By.name("submit"));
+		return this;
 	}
 
-	public void gotoHomePage() {
+	public ContactHelper gotoHomePage() {
 		click(By.linkText("home page"));
+		return this;
 	}
 	
-	public void fillContactForm(ContactData contact) {
+	public ContactHelper fillContactForm(ContactData contact) {
 		type(By.name("firstname"), contact.fname);
 		type(By.name("lastname"), contact.lname);
 		type(By.name("address"), contact.primary_addr);
@@ -41,6 +51,8 @@ public class ContactHelper extends BaseHelper{
 		type(By.name("byear"), contact.birth_year);
 		type(By.name("address2"), contact.second_addr);
 		type(By.name("phone2"), contact.second_home_phone);
+		
+		return this;
 	}
 	
 	/*
