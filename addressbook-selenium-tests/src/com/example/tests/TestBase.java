@@ -46,19 +46,19 @@ public class TestBase {
 		for (int i = 0; i < 5; i++){			
 			ContactData contact = new ContactData();
 			
-		    contact.fname = generateRandomString("FName ");
-		    contact.lname = generateRandomString("LName ");
-		    contact.primary_addr = generateRandomString("Address ");
-		    contact.second_addr = generateRandomString("Secondary address ");
-		    contact.home_phone = generateRandomNumber();//"998941234567";
-		    contact.second_home_phone = generateRandomNumber();//"99893135689";
-		    contact.mobile_phone = generateRandomNumber();//"998937865454";
-		    contact.work_phone = generateRandomNumber();//"2349873629";
-		    contact.first_email = generateRandomString("email")+"@some_host.com";
-		    contact.second_email = generateRandomString("email")+"2@some_host.com";
-		    contact.birth_day = "1";
-		    contact.birth_month = "December"; 
-		    contact.birth_year = "1980";
+		    contact.withFname(generateRandomString("FName "));
+		    contact.withLname(generateRandomString("LName "));
+		    contact.withPrimaryAddr(generateRandomString("Address "));
+		    contact.withSecondAddr(generateRandomString("Secondary address "));
+		    contact.withHomePhone(generateRandomNumber());//"998941234567";
+		    contact.withSecondHomePhone(generateRandomNumber());//"99893135689";
+		    contact.withMobilePhone(generateRandomNumber());//"998937865454";
+		    contact.withWorkPhone(generateRandomNumber());//"2349873629";
+		    contact.withFirstEmail(generateRandomString("email")+"@some_host.com");
+		    contact.withSecondEmail(generateRandomString("email")+"2@some_host.com");
+		    contact.withBirthDay("1");
+		    contact.withBirthMonth("December"); 
+		    contact.withBirthYear("1980");
 			
 			list.add(new Object[]{contact});
 		}

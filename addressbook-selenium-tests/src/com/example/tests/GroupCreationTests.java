@@ -10,18 +10,18 @@ import com.example.utils.SortedListOf;
 public class GroupCreationTests extends TestBase{
   
   @Test(dataProvider = "randomValidGroupGenerator")
-  public void testGroupCreationWithValidData(GroupData group) throws Exception {
+  public void testGroupCreationWithValidData(GroupData groupCreationData) throws Exception {
     //save old state
 	SortedListOf<GroupData> oldList= app.getGroupHelper().getGroups();
     
     //actions
-    app.getGroupHelper().createGroup(group);
+    app.getGroupHelper().createGroup(groupCreationData);
 	    
     //save new state
     SortedListOf<GroupData> newList= app.getGroupHelper().getGroups();
     
     //compare states
-    assertThat(newList, equalTo(oldList.withAdded(group)));
+    assertThat(newList, equalTo(oldList.withAdded(groupCreationData)));
   }
   
 }

@@ -1,23 +1,140 @@
 package com.example.tests;
 
 public class ContactData implements Comparable<ContactData>{
-	public String fname;
-	public String lname;
-	public String primary_addr;
-	public String second_addr;
-	public String home_phone;
-	public String mobile_phone;
-	public String work_phone;
-	public String first_email;
-	public String second_email;
-	public String second_home_phone;
-	public String birth_day;
-	public String birth_month;
-	public String birth_year;
+	private String fname;
+	private String lname;
+	private String primaryAddr;
+	private String secondAddr;
+	private String homePhone;
+	private String mobilePhone;
+	private String workPhone;
+	private String firstEmail;
+	private String secondEmail;
+	private String secondHomePhone;
+	private String birthDay;
+	private String birthMonth;
+	private String birthYear;	
+
+	public String getFname() {
+		return fname;
+	}
+
+	public String getLname() {
+		return lname;
+	}
+
+	public String getPrimaryAddr() {
+		return primaryAddr;
+	}
+
+	public String getSecondAddr() {
+		return secondAddr;
+	}
+
+	public String getHomePhone() {
+		return homePhone;
+	}
+
+	public String getMobilePhone() {
+		return mobilePhone;
+	}
+
+	public String getWorkPhone() {
+		return workPhone;
+	}
+
+	public String getFirstEmail() {
+		return firstEmail;
+	}
+
+	public String getSecondEmail() {
+		return secondEmail;
+	}
+
+	public String getSecondHomePhone() {
+		return secondHomePhone;
+	}
+
+	public String getBirthDay() {
+		return birthDay;
+	}
+
+	public String getBirthMonth() {
+		return birthMonth;
+	}
+
+	public String getBirthYear() {
+		return birthYear;
+	}
+	
+	public ContactData withFname(String fname) {
+		this.fname = fname;
+		return this;
+	}
+
+	public ContactData withLname(String lname) {
+		this.lname = lname;
+		return this;
+	}
+
+	public ContactData withPrimaryAddr(String primaryAddr) {
+		this.primaryAddr = primaryAddr;
+		return this;
+	}
+
+	public ContactData withSecondAddr(String secondAddr) {
+		this.secondAddr = secondAddr;
+		return this;
+	}
+
+	public ContactData withHomePhone(String homePhone) {
+		this.homePhone = homePhone;
+		return this;
+	}
+
+	public ContactData withMobilePhone(String mobilePhone) {
+		this.mobilePhone = mobilePhone;
+		return this;
+	}
+
+	public ContactData withWorkPhone(String workPhone) {
+		this.workPhone = workPhone;
+		return this;
+	}
+
+	public ContactData withFirstEmail(String firstEmail) {
+		this.firstEmail = firstEmail;
+		return this;
+	}
+
+	public ContactData withSecondEmail(String secondEmail) {
+		this.secondEmail = secondEmail;
+		return this;
+	}
+
+	public ContactData withSecondHomePhone(String secondHomePhone) {
+		this.secondHomePhone = secondHomePhone;
+		return this;
+	}
+
+	public ContactData withBirthDay(String birthDay) {
+		this.birthDay = birthDay;
+		return this;
+	}
+
+	public ContactData withBirthMonth(String birthMonth) {
+		this.birthMonth = birthMonth;
+		return this;
+	}
+
+	public ContactData withBirthYear(String birthYear) {
+		this.birthYear = birthYear;
+		return this;
+	}
 	
 	public ContactData(){
-		this.birth_day = "-";
-		this.birth_month = "-";
+		this.birthDay = "-";
+		this.birthMonth = "-";
 	}
 	
 	public ContactData(String fname, String lname,
@@ -27,23 +144,23 @@ public class ContactData implements Comparable<ContactData>{
 			String birth_month, String birth_year) {
 		this.fname = fname;
 		this.lname = lname;
-		this.primary_addr = primary_addr;
-		this.second_addr = second_addr;
-		this.home_phone = home_phone;
-		this.mobile_phone = mobile_phone;
-		this.work_phone = work_phone;
-		this.first_email = first_email;
-		this.second_email = second_email;
-		this.second_home_phone = second_home_phone;
-		this.birth_day = birth_day;
-		this.birth_month = birth_month;
-		this.birth_year = birth_year;
+		this.primaryAddr = primary_addr;
+		this.secondAddr = second_addr;
+		this.homePhone = home_phone;
+		this.mobilePhone = mobile_phone;
+		this.workPhone = work_phone;
+		this.firstEmail = first_email;
+		this.secondEmail = second_email;
+		this.secondHomePhone = second_home_phone;
+		this.birthDay = birth_day;
+		this.birthMonth = birth_month;
+		this.birthYear = birth_year;
 	}	
 
 	@Override
 	public String toString() {
 		return "ContactData [fname=" + fname + ", lname=" + lname
-				+ ", home_phone=" + home_phone + ", first_email=" + first_email
+				+ ", homePhone=" + homePhone + ", firstEmail=" + firstEmail
 				+ "]";
 	}
 
@@ -52,11 +169,11 @@ public class ContactData implements Comparable<ContactData>{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((first_email == null) ? 0 : first_email.hashCode());
+				+ ((firstEmail == null) ? 0 : firstEmail.hashCode());
 		result = prime * result + ((fname == null) ? 0 : fname.hashCode());
 		result = prime * result + ((lname == null) ? 0 : lname.hashCode());
 		result = prime * result
-				+ ((home_phone == null) ? 0 : home_phone.hashCode());
+				+ ((homePhone == null) ? 0 : homePhone.hashCode());
 		return result;
 	}
 
@@ -69,10 +186,10 @@ public class ContactData implements Comparable<ContactData>{
 		if (getClass() != obj.getClass())
 			return false;
 		ContactData other = (ContactData) obj;
-		if (first_email == null) {
-			if ((other.first_email != null) && (!other.first_email.equals("")))
+		if (firstEmail == null) {
+			if ((other.firstEmail != null) && (!other.firstEmail.equals("")))
 				return false;
-		} else if (!first_email.equals(other.first_email))
+		} else if (!firstEmail.equals(other.firstEmail))
 			return false;
 		if (fname == null) {
 			if ((other.fname != null) && (!other.fname.equals("")))
@@ -84,55 +201,23 @@ public class ContactData implements Comparable<ContactData>{
 				return false;
 		} else if (!lname.equals(other.lname))
 			return false;
-		if (home_phone == null) {
-			if ((other.home_phone != null) && (!other.home_phone.equals("")))
+		if (homePhone == null) {
+			if ((other.homePhone != null) && (!other.homePhone.equals("")))
 				return false;
-		} else if (!home_phone.equals(other.home_phone))
+		} else if (!homePhone.equals(other.homePhone))
 			return false;
 		return true;
 	}
 	
-	/*@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ContactData other = (ContactData) obj;
-		if (first_email == null) {
-			if (other.first_email != null)
-				return false;
-		} else if (!first_email.equals(other.first_email))
-			return false;
-		if (fname == null) {
-			if (other.fname != null)
-				return false;
-		} else if (!fname.equals(other.fname))
-			return false;
-		if (lname == null) {
-			if (other.lname != null)
-				return false;
-		} else if (!lname.equals(other.lname))
-			return false;
-		if (home_phone == null) {
-			if (other.home_phone != null)
-				return false;
-		} else if (!home_phone.equals(other.home_phone))
-			return false;
-		return true;
-	}*/
-
 	@Override
 	public int compareTo(ContactData other) {
 		int result = comparisonWithCheckForNULL(fname, other.fname);
 		if (result == 0){
 			result = comparisonWithCheckForNULL(lname, other.lname);
 			if(result == 0){
-				result = comparisonWithCheckForNULL(first_email, other.first_email);
+				result = comparisonWithCheckForNULL(firstEmail, other.firstEmail);
 				if(result == 0){
-					result = comparisonWithCheckForNULL(home_phone, other.home_phone);
+					result = comparisonWithCheckForNULL(homePhone, other.homePhone);
 					if(result == 0){
 						return result;
 					}

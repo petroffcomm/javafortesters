@@ -12,7 +12,7 @@ import com.example.utils.SortedListOf;
 public class GroupModificationTests extends TestBase{
 	
 	@Test(dataProvider = "randomValidGroupGenerator")
-	public void modifySomeGroup(GroupData group){	    
+	public void modifySomeGroup(GroupData groupModificationData){	    
 	    //save old state
 		SortedListOf<GroupData> oldList= app.getGroupHelper().getGroups();
 	    
@@ -20,13 +20,13 @@ public class GroupModificationTests extends TestBase{
 	    int index = rnd.nextInt(oldList.size()-1);
 	    
 	    //actions
-	    app.getGroupHelper().modifyGroup(index, group);
+	    GroupData groupBeforeModification = app.getGroupHelper().modifyGroup(index, groupModificationData);
 	    
 	    //save new state
 	    SortedListOf<GroupData> newList= app.getGroupHelper().getGroups();
 	    
 	    //compare states
-	    assertThat(newList, equalTo(oldList.without(index).withAdded(group)));
+	    assertThat(newList, equalTo(oldList.without(groupBeforeModification).withAdded(groupModificationData)));
 	}
 	
 }

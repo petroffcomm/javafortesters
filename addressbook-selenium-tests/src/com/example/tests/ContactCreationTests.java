@@ -1,31 +1,28 @@
 package com.example.tests;
 
-import java.util.Collections;
-import java.util.List;
+import static org.junit.Assert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
+import com.example.utils.SortedListOf;
 
 public class ContactCreationTests extends TestBase {
 
   @Test(dataProvider = "randomValidContactGenerator")
-  public void testContactCreationWithValidData(ContactData contact) throws Exception {
-	
-    app.navigateTo().mainPage();
-    
+  public void testContactCreationWithValidData(ContactData contactCreationData) throws Exception {
+	    
     //save old state
-    List<ContactData> oldList = app.getContactHelper().getContacts();
-    
-    app.getContactHelper().createContact(contact);
+    SortedListOf<ContactData> oldList = app.getContactHelper().getContacts();
+
+    //actions
+    app.getContactHelper().createContact(contactCreationData);
     
     //save new state
-    List<ContactData> newList = app.getContactHelper().getContacts();
+    SortedListOf<ContactData> newList = app.getContactHelper().getContacts();
     
-    oldList.add(contact);
-    Collections.sort(oldList);
-    Collections.sort(newList);
-    assertEquals(newList, oldList);
+    //compare states
+    assertThat(newList, equalTo(oldList.withAdded(contactCreationData)));
   }
   
 }
