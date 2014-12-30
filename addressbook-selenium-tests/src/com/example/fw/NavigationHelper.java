@@ -36,5 +36,21 @@ public class NavigationHelper extends BaseHelper{
 			return false;
 		}
 	}
+	
+	public void printPhonesPage() {
+		if (! isOnPrintPhonesPage()){
+			click(By.linkText("print phones"));
+		}else{
+			return;
+		}		
+	}
+
+	private boolean isOnPrintPhonesPage() {
+		if (driver.getCurrentUrl().contains("/view.php?all&print&phones")){
+			return true;
+		}else{
+			return false;
+		}
+	}
 
 }
