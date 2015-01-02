@@ -7,7 +7,6 @@ import java.util.regex.Pattern;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import com.example.tests.ContactData;
 import com.example.utils.SortedListOf;
 
 public class PrintedPhonesHelper extends BaseHelper {
@@ -16,21 +15,32 @@ public class PrintedPhonesHelper extends BaseHelper {
 		super(manager);
 	}
 	
-	public SortedListOf<ContactData> getContacts(){
+	public SortedListOf<String> getContacts(){
 		manager.navigateTo().printPhonesPage();
-		getTableCells();
-		return null;		
+		return getTableCellsData();
 	}
 	
-	private void getTableCells(){
+	private SortedListOf<String> getTableCellsData(){
 		List<WebElement> cells = driver.findElements(By.xpath("//table[@id='view']/tbody/tr/td[@*]"));
 		
-		Pattern ptrn = Pattern.compile("(^.*:$)|(:.*$)", Pattern.MULTILINE);
-		for (WebElement cell : cells) {			
-			Matcher mtcr = ptrn.matcher(cell.getText());
-			System.out.println(mtcr.find() + " " + mtcr.groupCount());
-			//System.out.println(cell.getText());
+		SortedListOf<String> printedContactPhones = new SortedListOf<String>();
+		
+		Pattern pattern = Pattern.compile("^(.*):\\s*$|^H:(.*)$", Pattern.MULTILINE);
+		
+		for (WebElement cell : cells) {	
+			Matcher matcher = pattern.matcher(cell.getText());
+			
+			int idx = 1;
+			StringBuffer contactRecord = new StringBuffer();
+			while(matcher.find()){
+				contactRecord.append(" ").append(matcher.group(idx).trim());
+				idx++;
+			}
+			
+			printedContactPhones.add(contactRecord.toString().trim());
 		}
+		
+		return printedContactPhones;
 	}
 
 }

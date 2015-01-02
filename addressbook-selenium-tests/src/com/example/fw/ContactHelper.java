@@ -86,6 +86,17 @@ public class ContactHelper extends BaseHelper{
 												.withHomePhone(homePhone));			
 		}		
 	}
+
+	public SortedListOf<String> getPrintedViewForContacts() {
+		SortedListOf<ContactData> contacts = getContacts();
+		
+		SortedListOf<String> printedContacts = new SortedListOf<String>();
+		for (ContactData contact: contacts){
+			printedContacts.add(contact.toPrintedView());
+		}
+		
+		return printedContacts;
+	}
 	
 	public ContactHelper fillContactForm(ContactData contact) {
 		type(By.name("firstname"), contact.getFname());

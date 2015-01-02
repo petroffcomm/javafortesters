@@ -243,4 +243,9 @@ public class ContactData implements Comparable<ContactData>{
 		}
 		return result;
 	}
+
+	public String toPrintedView() {
+		//String str = (" " + lname + " ").replaceAll("\\*{2,}", " ");
+		return (fname + (" " + lname + " ").replaceAll("( )+", " ") + homePhone).trim();
+	}
 }
