@@ -17,10 +17,10 @@ public class PrintedPhonesHelper extends BaseHelper {
 	
 	public SortedListOf<String> getContacts(){
 		manager.navigateTo().printPhonesPage();
-		return getTableCellsData();
+		return getDataFromTableCells();
 	}
 	
-	private SortedListOf<String> getTableCellsData(){
+	private SortedListOf<String> getDataFromTableCells(){
 		List<WebElement> cells = driver.findElements(By.xpath("//table[@id='view']/tbody/tr/td[@*]"));
 		
 		SortedListOf<String> printedContactPhones = new SortedListOf<String>();
