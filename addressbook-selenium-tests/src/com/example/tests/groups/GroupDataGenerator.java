@@ -1,4 +1,4 @@
-package com.example.tests;
+package com.example.tests.groups;
 
 import java.io.BufferedReader;
 import java.io.File;

@@ -1,6 +1,6 @@
-package com.example.tests;
+package com.example.tests.contacts;
 
-import static com.example.tests.GroupDataGenerator.generateRandomString;
+import static com.example.tests.groups.GroupDataGenerator.generateRandomString;
 
 import java.io.BufferedReader;
 import java.io.File;

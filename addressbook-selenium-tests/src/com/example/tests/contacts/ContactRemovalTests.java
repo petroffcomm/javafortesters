@@ -1,4 +1,4 @@
-package com.example.tests;
+package com.example.tests.contacts;
 
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -7,6 +7,7 @@ import java.util.Random;
 
 import org.testng.annotations.Test;
 
+import com.example.tests.TestBase;
 import com.example.utils.SortedListOf;
 
 public class ContactRemovalTests extends TestBase{

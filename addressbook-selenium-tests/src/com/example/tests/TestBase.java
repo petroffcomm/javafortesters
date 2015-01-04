@@ -13,9 +13,11 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 
 import com.example.fw.ApplicationManager;
+import com.example.tests.contacts.ContactData;
+import com.example.tests.groups.GroupData;
 
-import static com.example.tests.GroupDataGenerator.generateRandomGroups;
-import static com.example.tests.ContactDataGenerator.generateRandomContacts;
+import static com.example.tests.contacts.ContactDataGenerator.generateRandomContacts;
+import static com.example.tests.groups.GroupDataGenerator.generateRandomGroups;
 
 
 public class TestBase {

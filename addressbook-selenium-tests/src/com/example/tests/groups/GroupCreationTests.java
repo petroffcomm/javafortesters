@@ -1,4 +1,4 @@
-package com.example.tests;
+package com.example.tests.groups;
 
 
 import java.io.File;
@@ -11,10 +11,11 @@ import static org.hamcrest.Matchers.*;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import com.example.tests.TestBase;
 import com.example.utils.SortedListOf;
 
-import static com.example.tests.GroupDataGenerator.loadGroupsFromCSVFile;
-import static com.example.tests.GroupDataGenerator.loadGroupsFromXMLFile;
+import static com.example.tests.groups.GroupDataGenerator.loadGroupsFromCSVFile;
+import static com.example.tests.groups.GroupDataGenerator.loadGroupsFromXMLFile;
 
 public class GroupCreationTests extends TestBase{
   

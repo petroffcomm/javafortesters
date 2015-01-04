@@ -1,6 +1,6 @@
-package com.example.tests;
+package com.example.tests.contacts;
 
-import static com.example.tests.ContactDataGenerator.loadContactsFromCSVFile;
+import static com.example.tests.contacts.ContactDataGenerator.loadContactsFromCSVFile;
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.*;
 
@@ -11,6 +11,7 @@ import java.util.Iterator;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import com.example.tests.TestBase;
 import com.example.utils.SortedListOf;
 
 public class ContactCreationTests extends TestBase {

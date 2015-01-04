@@ -1,4 +1,4 @@
-package com.example.tests;
+package com.example.tests.contacts;
 
 public class ContactData implements Comparable<ContactData>{
 	private String fname;
@@ -245,7 +245,6 @@ public class ContactData implements Comparable<ContactData>{
 	}
 
 	public String toPrintedView() {
-		//String str = (" " + lname + " ").replaceAll("\\*{2,}", " ");
 		return (fname + (" " + lname + " ").replaceAll("( )+", " ") + homePhone).trim();
 	}
 }
