@@ -4,7 +4,6 @@ import static com.example.tests.groups.GroupDataGenerator.generateRandomString;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -50,7 +49,7 @@ public class ContactDataGenerator {
 		String xml = xstream.toXML(contacts);
 		
 		FileWriter writer = new FileWriter(file);
-		writer.write(xml);		
+		writer.write(xml);
 		writer.close();
 	}
 	

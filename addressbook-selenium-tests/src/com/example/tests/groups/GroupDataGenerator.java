@@ -46,7 +46,7 @@ public class GroupDataGenerator {
 		String xml = xstream.toXML(groups);
 		
 		FileWriter writer = new FileWriter(file);
-		writer.write(xml);		
+		writer.write(xml);
 		writer.close();
 	}
 	

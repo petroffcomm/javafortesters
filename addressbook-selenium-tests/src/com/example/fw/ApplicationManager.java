@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 
 public class ApplicationManager {
 	
@@ -26,6 +27,8 @@ public class ApplicationManager {
 			driver = new FirefoxDriver();
 		}else if ("ie".equals(browser)) {
 			driver = new InternetExplorerDriver();
+		}else if ("chrome".equals(browser)) {
+			driver = new ChromeDriver();
 		}else{
 			throw new Error("Unsupported browser: " + browser);
 		}

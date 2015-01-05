@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Default suite">
-  <test verbose="2" name="Default test">
+<suite name="Suite for creating groups and contacts">
+  <test verbose="3" name="Creation tests">
     <classes>
-      <class name="com.example.tests.GroupCreationTests"/>
+      <class name="com.example.tests.groups.GroupCreationTests"/>
+      <class name="com.example.tests.contacts.ContactCreationTests"/>
     </classes>
-  </test> <!-- Default test -->
-</suite> <!-- Default suite -->
+  </test>
+</suite>
