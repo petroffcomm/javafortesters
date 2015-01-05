@@ -18,7 +18,7 @@ public class ContactCreationTests extends TestBase {
 
   @DataProvider
   public Iterator<Object[]> contactsFromFile() throws IOException{
-    return wrapContactsForDataProviders(loadContactsFromCSVFile(new File("groups.csv"))).iterator();
+    return wrapContactsForDataProviders(loadContactsFromCSVFile(new File("contacts.csv"))).iterator();
   }
 	
   @Test(dataProvider = "randomValidContactGenerator")

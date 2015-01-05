@@ -26,7 +26,7 @@ public class TestBase {
 
 	@BeforeTest
 	public void setUp() throws Exception {
-		String configFile = System.getProperty("configFile", "application.properties");
+		String configFile = System.getProperty("configFile", "config\\application.properties");
 		Properties properties = new Properties();
 		properties.load(new FileReader(new File(configFile)));
 		app = new ApplicationManager(properties);

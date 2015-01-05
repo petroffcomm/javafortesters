@@ -1,0 +1,1 @@
+java -cp bin;d:\SelfTraining\Trainings\javafortesters\install\xstream-1.4.7\lib\xstream-1.4.7.jar;d:\SelfTraining\Trainings\javafortesters\install\xstream-1.4.7\lib\xstream\xpp3_min-1.1.4c.jar com.example.tests.groups.GroupDataGenerator 5 groups.xml xml

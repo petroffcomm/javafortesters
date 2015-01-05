@@ -28,6 +28,7 @@ public class ApplicationManager {
 		}else if ("ie".equals(browser)) {
 			driver = new InternetExplorerDriver();
 		}else if ("chrome".equals(browser)) {
+			System.setProperty("webdriver.chrome.driver", System.getenv("SELENIUM_HOME")+"\\chromedriver.exe");
 			driver = new ChromeDriver();
 		}else{
 			throw new Error("Unsupported browser: " + browser);
