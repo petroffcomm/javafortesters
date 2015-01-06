@@ -25,14 +25,14 @@ public class PrintedPhonesHelper extends BaseHelper {
 		
 		SortedListOf<String> printedContactPhones = new SortedListOf<String>();
 		
-		Pattern pattern = Pattern.compile("^(.*):\\s*$|^H:(.*)$", Pattern.MULTILINE);
+		Pattern pattern = Pattern.compile("^(.*):\\s*$|^[HMWP]:\\s(\\d+)$", Pattern.MULTILINE);
 		
-		for (WebElement cell : cells) {	
+		for (WebElement cell : cells) {
 			Matcher matcher = pattern.matcher(cell.getText());
 			
 			int idx = 1;
 			StringBuffer contactRecord = new StringBuffer();
-			while(matcher.find()){
+			while(matcher.find() && (idx < 3)){
 				contactRecord.append(" ").append(matcher.group(idx).trim());
 				idx++;
 			}
