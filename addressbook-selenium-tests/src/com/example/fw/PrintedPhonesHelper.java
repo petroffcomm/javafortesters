@@ -25,15 +25,22 @@ public class PrintedPhonesHelper extends BaseHelper {
 		
 		SortedListOf<String> printedContactPhones = new SortedListOf<String>();
 		
-		Pattern pattern = Pattern.compile("^(.*):\\s*$|^[HMWP]:\\s(\\d+)$", Pattern.MULTILINE);
+		Pattern pattern = Pattern.compile("^(.*):\\s*$|^[HMWP]:\\s*(.+)$", Pattern.MULTILINE);
 		
 		for (WebElement cell : cells) {
 			Matcher matcher = pattern.matcher(cell.getText());
 			
 			int idx = 1;
 			StringBuffer contactRecord = new StringBuffer();
+			
 			while(matcher.find() && (idx < 3)){
-				contactRecord.append(" ").append(matcher.group(idx).trim());
+				//trim() calling is necessary here for space-padded first+last name
+				String item = matcher.group(idx).trim();
+				//replacing spaces inside phone number to represent it's value
+				//as it's shown on the main page - w/o spaces
+				if (idx == 2) item = item.replaceAll(" ", "");
+				
+				contactRecord.append(" ").append(item);
 				idx++;
 			}
 			
