@@ -50,7 +50,10 @@ public class ApplicationManager {
 
 	public JFrameOperator getApplication() {
 		if (mainFrame == null){
-			try {
+			try {				
+				System.setProperty("jAddressBook.home", "d:\\SelfTraining\\Trainings\\javafortesters\\install\\lesson6_full\\AddressBook\\data\\");
+				System.setProperty("addressbook.DTD", "d:\\SelfTraining\\Trainings\\javafortesters\\install\\lesson6_full\\AddressBook\\data\\");
+				
 				new ClassReference("addressbook.AddressBookFrame").startApplication();
 				mainFrame = new JFrameOperator("jAddressBook");
 			} catch (Exception e) {

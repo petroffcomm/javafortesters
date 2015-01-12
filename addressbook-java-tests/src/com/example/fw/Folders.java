@@ -15,7 +15,17 @@ public class Folders {
 		newList.storedFolders.add(folder);
 		return newList;
 	}
+	
+	public Folders without(String folder) {
+		Folders newList = new Folders(storedFolders);
+		newList.storedFolders.remove(folder);
+		return newList;
+	}
 
+	public int size() {
+		return this.storedFolders.size();
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

@@ -2,6 +2,8 @@ package com.example.fw;
 
 import java.util.ArrayList;
 
+import javax.swing.tree.TreePath;
+
 import org.netbeans.jemmy.operators.JButtonOperator;
 import org.netbeans.jemmy.operators.JDialogOperator;
 import org.netbeans.jemmy.operators.JTextFieldOperator;
@@ -31,6 +33,29 @@ public class FolderHelper extends BaseHelper{
 		new JTextFieldOperator(jdialog).setText(folderName);
 		new JButtonOperator(jdialog, "OK").push();
 		return waitMessageDialog("Warning", 3000);
+	}
+
+	public String deleteFolder(int index) {
+		selectFolderByIndex(index);
+		
+		String folderDeleted = getFolderNameByIndex(index);
+		
+		manager.getMenuHelper().pushDeleteFolder();
+		JDialogOperator jdialog = new JDialogOperator(mainFrame);
+		new JButtonOperator(jdialog, "Yes").push();
+		
+		return folderDeleted;
+	}
+
+	private String getFolderNameByIndex(int index) {
+		JTreeOperator jtree = new JTreeOperator(mainFrame);
+		TreePath row = jtree.getSelectionPath();
+		return row.getLastPathComponent().toString();		
+	}
+
+	private void selectFolderByIndex(int index) {
+		JTreeOperator jtree = new JTreeOperator(mainFrame);
+		jtree.selectRow(index);
 	}
 	
 }
