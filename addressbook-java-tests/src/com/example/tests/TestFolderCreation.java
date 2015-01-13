@@ -9,35 +9,35 @@ import static org.hamcrest.MatcherAssert.*;
 
 public class TestFolderCreation extends TestBase {
 	
-	@Test
-	public void testFolderCreation(){
-		String folder = "newfolder";
+	@Test(dataProvider = "folderNameGenerator", groups={"first"})
+	public void testFolderCreation(String folder){
+		
 		Folders oldFolders = app.getFolderHelper().getFolders();
 		assertThat(app.getFolderHelper().createFolder(folder), is(nullValue()));
 		Folders newFolders = app.getFolderHelper().getFolders();
 		
 		assertThat(newFolders, equalTo(oldFolders.withAdded(folder)));
-	}
-	
-	@Test
-	public void testVariousFoldersCreation(){
-		String folder1 = "newfolder1";
-		String folder2 = "newfolder2";
 		
+	}
+		
+	@Test(dataProvider = "folderNameGenerator", groups={"second"}, dependsOnGroups = {"first"}, alwaysRun = true)
+	public void testVariousFoldersCreation(String folder){	
+		
+		String folder2 = folder + "2";
 		Folders oldFolders = app.getFolderHelper().getFolders();
-		assertThat(app.getFolderHelper().createFolder(folder1), is(nullValue()));
+		assertThat(app.getFolderHelper().createFolder(folder), is(nullValue()));
 		Folders newFolders = app.getFolderHelper().getFolders();
 		
-		assertThat(newFolders, equalTo(oldFolders.withAdded(folder1)));
+		assertThat(newFolders, equalTo(oldFolders.withAdded(folder)));
 		
 		assertThat(app.getFolderHelper().createFolder(folder2), is(nullValue()));
 		Folders newFolders2 = app.getFolderHelper().getFolders();
 		assertThat(newFolders2, equalTo(newFolders.withAdded(folder2)));
+		
 	}
-	
-	@Test
-	public void testFoldersWithSameNameCreation(){
-		String folder = "newfolder3";
+
+	@Test(dataProvider = "folderNameGenerator", groups={"third"}, dependsOnGroups = {"second"}, alwaysRun = true)
+	public void testFoldersWithSameNameCreation(String folder){
 		
 		Folders oldFolders = app.getFolderHelper().getFolders();
 		assertThat(app.getFolderHelper().createFolder(folder), is(nullValue()));
@@ -48,6 +48,9 @@ public class TestFolderCreation extends TestBase {
 		assertThat(app.getFolderHelper().createFolder(folder), containsString("Duplicated folder name"));
 		Folders newFolders2 = app.getFolderHelper().getFolders();
 		assertThat(newFolders2, equalTo(newFolders));
+		
+		app.getFolderHelper().deleteFolder(folder);
+		
 	}
-
+	
 }
