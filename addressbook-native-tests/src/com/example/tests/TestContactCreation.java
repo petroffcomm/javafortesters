@@ -1,18 +1,21 @@
 package com.example.tests;
 
+import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 public class TestContactCreation extends TestBase {
 	
-	@Test
-	public void createContactWithValidData(){
-		Contact contact = new Contact().setFristName("tester").setLastName("tester");
+	@BeforeClass(dependsOnGroups = "primary")
+	public void cleanAppDataBase(){
+		deleteFile(app.getProperty("app.data"));		
+	}
+	
+	@Test(dataProvider = "generateRandomContact")
+	public void createContactWithValidData(Contact contact){
 		app.getContactHelper().createContact(contact);
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	} 
+		Contact createdContact = app.getContactHelper().getFirstContact();
+		Assert.assertEquals(contact, createdContact);
+	}
 
 }

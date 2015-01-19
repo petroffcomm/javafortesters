@@ -62,6 +62,4 @@ public class ApplicationManager {
 		return properties.getProperty(key, defaultValue);
 	}
 	
-	
-
 }

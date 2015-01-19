@@ -10,20 +10,20 @@ import com.jacob.com.LibraryLoader;
 public class AutoItHelper extends BaseHelper {
 
     static {
-        File jacob = new File("lib","jacob-1.18-M2-x64.dll");
+        File jacob = new File("lib","jacob-1.15-M4-x64.dll");
         System.setProperty(LibraryLoader.JACOB_DLL_PATH, jacob.getAbsolutePath());
     }
+    
+    private String winTitle;
+    private String winText;
+
+    private final AutoItX aux;
 
     public AutoItHelper(ApplicationManager manager) {
         super(manager);
         ComThread.InitMTA();
         aux = new AutoItX();
     }
-
-    private String winTitle;
-    private String winText;
-
-    private final AutoItX aux;
 
     public AutoItHelper winWaitAndActivate(String winTitle, String winText, int timeout) {
         this.winTitle = winTitle;

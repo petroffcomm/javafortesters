@@ -1,5 +1,6 @@
 package com.example.tests;
 
+import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -21,7 +22,7 @@ public class TestBase {
 	protected Logger log = Logger.getLogger("TEST");
 	protected ApplicationManager app;
 
-	@BeforeClass
+	@BeforeClass(groups="primary")
 	@Parameters({"configFile"})
 	public void setUp(@Optional String configFile) throws Exception {
 		if (configFile == null){
@@ -48,12 +49,18 @@ public class TestBase {
 		log.info("tearDown end");
 	}
 	
-	@DataProvider
-	protected Iterator<Object[]> folderNameGenerator(){
+	@DataProvider	
+	public Iterator<Object[]> generateRandomContact() {
 		List<Object[]> list = new ArrayList<Object[]>();
-		list.add(new Object[]{generateRandomString("folder")});
 		
-		return list.iterator();	
+		String prefix = "test";
+		Contact contact = new Contact()
+			.setFirstName(generateRandomString(prefix))
+			.setLastName(generateRandomString(prefix));
+						
+		list.add(new Object[]{contact});
+				
+		return list.iterator();
 	}
 	
 	protected static String generateRandomString(String prefix){
@@ -71,6 +78,14 @@ public class TestBase {
 		}else{
 			return rnd.nextInt(size - 1);
 		}	    
+	}
+	
+	public void deleteFile(String name) {
+		File file = new File(name);
+		
+		if (file.exists()){
+			file.delete();
+		}
 	}
 	
 }
