@@ -10,11 +10,8 @@ public class ApplicationManager {
 	private static ApplicationManager singleton;
 	
 	private Properties properties;
-
 	private FolderHelper folderHelper;
-
 	private JFrameOperator mainFrame;
-
 	private MenuHelper menuHelper;
 	
 	public static ApplicationManager getInstance(){

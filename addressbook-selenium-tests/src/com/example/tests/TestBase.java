@@ -21,7 +21,12 @@ import static com.example.tests.groups.GroupDataGenerator.generateRandomGroups;
 
 public class TestBase {
 	
-	protected ApplicationManager app;
+	// Static modifier is used for this field because we need the possibility
+	// to run 2 classes consequently in terms of one <test>-tag (see testNG docs).
+	// It's impossible to use non-static field because @BeforeTest "setUp"-method
+	// which initializes variable "app" for newly created test class will not be executed
+	// before running 2-nd class - only before the next test 
+	protected static ApplicationManager app;
 
 	@BeforeTest
 	public void setUp() throws Exception {
