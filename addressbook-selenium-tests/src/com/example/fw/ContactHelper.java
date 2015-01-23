@@ -8,7 +8,7 @@ import org.openqa.selenium.WebElement;
 import com.example.tests.contacts.ContactData;
 import com.example.utils.SortedListOf;
 
-public class ContactHelper extends BaseHelper{
+public class ContactHelper extends BaseHelperWeb{
 
 	public ContactHelper(ApplicationManager manager) {
 		super(manager);

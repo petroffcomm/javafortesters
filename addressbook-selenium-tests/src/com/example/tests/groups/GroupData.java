@@ -1,10 +1,15 @@
 package com.example.tests.groups;
 
 public class GroupData implements Comparable<GroupData>{
+	private String id;
 	private String name;
 	private String header;
 	private String footer;
 
+	public String getId() {
+		return id;
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -15,6 +20,11 @@ public class GroupData implements Comparable<GroupData>{
 	
 	public String getFooter() {
 		return footer;
+	}
+
+	public GroupData withId(String id) {		
+		this.id = id;
+		return this;
 	}
 	
 	public GroupData withName(String name) {		

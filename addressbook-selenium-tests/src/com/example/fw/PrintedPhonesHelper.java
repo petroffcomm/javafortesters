@@ -9,7 +9,7 @@ import org.openqa.selenium.WebElement;
 
 import com.example.utils.SortedListOf;
 
-public class PrintedPhonesHelper extends BaseHelper {
+public class PrintedPhonesHelper extends BaseHelperWeb {
 
 	public PrintedPhonesHelper(ApplicationManager manager) {
 		super(manager);

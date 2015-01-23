@@ -8,7 +8,7 @@ import org.openqa.selenium.WebElement;
 import com.example.tests.groups.GroupData;
 import com.example.utils.SortedListOf;
 
-public class GroupHelper extends BaseHelper{
+public class GroupHelper extends BaseHelperWeb{
 
 	public GroupHelper(ApplicationManager manager) {
 		super(manager);
