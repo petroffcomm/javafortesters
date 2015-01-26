@@ -69,6 +69,10 @@ public class ContactHelper extends BaseHelperWeb{
 	}
 	
 	private void rebuildCache() {
+		cachedContacts = (SortedListOf<ContactData>)manager.getHibernateHelper().listContacts();	
+	}
+	
+	private void rebuildCacheFromUI() {
 		cachedContacts = new SortedListOf<ContactData>();
 		
 		manager.navigateTo().mainPage();
