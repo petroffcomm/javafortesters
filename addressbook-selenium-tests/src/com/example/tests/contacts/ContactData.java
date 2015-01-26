@@ -1,6 +1,7 @@
 package com.example.tests.contacts;
 
 public class ContactData implements Comparable<ContactData>{
+	private String id;
 	private String fname;
 	private String lname;
 	private String primaryAddr;
@@ -15,6 +16,66 @@ public class ContactData implements Comparable<ContactData>{
 	private String birthMonth;
 	private String birthYear;	
 
+	public void setId(String id) {
+		this.id = id;
+	}
+	
+	public void setFname(String fname) {
+		this.fname = fname;
+	}
+
+	public void setLname(String lname) {
+		this.lname = lname;
+	}
+
+	public void setPrimaryAddr(String primaryAddr) {
+		this.primaryAddr = primaryAddr;
+	}
+
+	public void setSecondAddr(String secondAddr) {
+		this.secondAddr = secondAddr;
+	}
+
+	public void setHomePhone(String homePhone) {
+		this.homePhone = homePhone;
+	}
+
+	public void setMobilePhone(String mobilePhone) {
+		this.mobilePhone = mobilePhone;
+	}
+
+	public void setWorkPhone(String workPhone) {
+		this.workPhone = workPhone;
+	}
+
+	public void setFirstEmail(String firstEmail) {
+		this.firstEmail = firstEmail;
+	}
+
+	public void setSecondEmail(String secondEmail) {
+		this.secondEmail = secondEmail;
+	}
+
+	public void setSecondHomePhone(String secondHomePhone) {
+		this.secondHomePhone = secondHomePhone;
+	}
+
+	public void setBirthDay(String birthDay) {
+		this.birthDay = birthDay;
+	}
+
+	public void setBirthMonth(String birthMonth) {
+		this.birthMonth = birthMonth;
+	}
+
+	public void setBirthYear(String birthYear) {
+		this.birthYear = birthYear;
+	}
+
+	public String getId() {
+		return id;
+	}
+	
 	public String getFname() {
 		return fname;
 	}
@@ -66,6 +127,11 @@ public class ContactData implements Comparable<ContactData>{
 	public String getBirthYear() {
 		return birthYear;
 	}
+
+	public ContactData withId(String Id) {
+		this.id = Id;
+		return this;
+	}	
 	
 	public ContactData withFname(String fname) {
 		this.fname = fname;
@@ -245,6 +311,6 @@ public class ContactData implements Comparable<ContactData>{
 	}
 
 	public String toPrintedView() {
-		return (fname + (" " + lname + " ").replaceAll("( )+", " ") + homePhone).trim();
+		return (fname + (" " + lname + " ").replaceAll("( )+", " ") + homePhone.replaceAll("( )+", "")).trim();
 	}
 }

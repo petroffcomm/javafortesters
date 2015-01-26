@@ -70,6 +70,10 @@ public class GroupHelper extends BaseHelperWeb{
 	}
 	
 	private void rebuildCache() {
+		cachedGroups = (SortedListOf<GroupData>)manager.getHibernateHelper().listGroups();
+	}
+	
+	private void rebuildCacheFromUI() {
 		cachedGroups = new SortedListOf<GroupData>();
 		
 		manager.navigateTo().groupsPage();
