@@ -10,6 +10,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 public class ApplicationManager {
 	
+	private Properties properties;
+	
 	private WebDriver driver;
 	private String baseUrl;
 	
@@ -18,10 +20,15 @@ public class ApplicationManager {
 	private GroupHelper groupHelper;
 	private ContactHelper contactHelper;
 	private PrintedPhonesHelper printedPhonesHelper;
-	private Properties properties;
+	
+	private ApplicationModel model;
 	
 	public ApplicationManager(Properties properties){
 		this.properties = properties;
+		
+		this.model = new ApplicationModel();
+		model.setGroups(getHibernateHelper().listGroups());
+		model.setContacts(getHibernateHelper().listContacts());
 	}
 	
 	public void stop() {
@@ -85,6 +92,14 @@ public class ApplicationManager {
 		}
 		
 		return driver;
+	}
+	
+	public ApplicationModel getModel(){
+		return model;
+	}
+
+	public String getProperty(String key) {
+		return properties.getProperty(key);
 	}
 
 }
