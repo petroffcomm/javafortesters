@@ -24,16 +24,16 @@ public class GroupCreationTests extends TestBase{
 	return wrapGroupsForDataProviders(loadGroupsFromXMLFile(new File("groups.xml"))).iterator();
   }
 
-@Test(dataProvider = "groupsFromFile")
+  @Test(dataProvider = "groupsFromFile")
   public void testGroupCreationWithValidData(GroupData groupCreationData) throws Exception {
-    //save old state
+	//save old state from DB
 	SortedListOf<GroupData> oldList= app.getModel().getGroups();
     
     //actions
     app.getGroupHelper().createGroup(groupCreationData);
 	    
-    //save new state
-    SortedListOf<GroupData> newList= app.getModel().getGroups();
+    //save new state from UI
+    SortedListOf<GroupData> newList= app.getGroupHelper().getGroups();
     
     //compare states
     assertThat(newList, equalTo(oldList.withAdded(groupCreationData)));

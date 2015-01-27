@@ -130,12 +130,12 @@ public class ContactHelper extends BaseHelperWeb{
 	at the submission moment.
 	*/
 	public ContactData getContactFormData() {
-		ContactData contact = new ContactData();
-		
-		contact.withFname(getFieldValue(By.name("firstname")));
-		contact.withLname(getFieldValue(By.name("lastname")));
-		contact.withFirstEmail(getFieldValue(By.name("email")));
-		contact.withHomePhone(getFieldValue(By.name("home")));
+		ContactData contact = new ContactData()
+			.withId(getFieldValue(By.name("id")))
+			.withFname(getFieldValue(By.name("firstname")))
+			.withLname(getFieldValue(By.name("lastname")))
+			.withFirstEmail(getFieldValue(By.name("email")))
+			.withHomePhone(getFieldValue(By.name("home")));
 		
 		return contact;
 	}

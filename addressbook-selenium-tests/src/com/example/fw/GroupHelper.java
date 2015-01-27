@@ -17,7 +17,6 @@ public class GroupHelper extends BaseHelperWeb{
 	private GroupData lastCreatedGroup;
 	private GroupData groupBeforeModification;
 	private GroupData lastDeletedGroup;
-	private SortedListOf<GroupData> cachedGroups;
 	
 	public GroupData createGroup(GroupData group) {
 		manager.navigateTo().groupsPage();
@@ -27,7 +26,9 @@ public class GroupHelper extends BaseHelperWeb{
 		lastCreatedGroup = getGroupFormData();
 		submitGroupCreation();
 		returnToGroupsPage();
-		rebuildCache();
+
+		//update model of tested application
+		manager.getModel().addGroup(group);
 		
 		return lastCreatedGroup;
 	}
@@ -42,7 +43,9 @@ public class GroupHelper extends BaseHelperWeb{
 	    fillGroupForm(group);
 	    submitGroupModification();
 	    returnToGroupsPage();
-	    rebuildCache();
+
+	    //update model of tested application
+	    manager.getModel().removeGroup(groupBeforeModification).addGroup(group);
 	    
 		return groupBeforeModification;
 	}
@@ -56,25 +59,15 @@ public class GroupHelper extends BaseHelperWeb{
 		
 		submitGroupDeletion();
 		returnToGroupsPage();
-		rebuildCache();
+
+		//update model of tested application
+		manager.getModel().removeGroup(lastDeletedGroup);
 		
 		return lastDeletedGroup;
 	}
 	
 	public SortedListOf<GroupData> getGroups() {		
-		if (cachedGroups == null){
-			rebuildCache();
-		}
-		
-		return cachedGroups;
-	}
-	
-	private void rebuildCache() {
-		cachedGroups = (SortedListOf<GroupData>)manager.getHibernateHelper().listGroups();
-	}
-	
-	private void rebuildCacheFromUI() {
-		cachedGroups = new SortedListOf<GroupData>();
+		SortedListOf<GroupData> groups = new SortedListOf<GroupData>();
 		
 		manager.navigateTo().groupsPage();
 		List<WebElement> checkboxes = driver.findElements(By.name("selected[]"));
@@ -82,8 +75,10 @@ public class GroupHelper extends BaseHelperWeb{
 		for (WebElement checkbox : checkboxes) {			
 			String name = getGroupNameFromCheckboxTitle(checkbox);
 			
-			cachedGroups.add(new GroupData().withName(name));
+			groups.add(new GroupData().withName(name));
 		}
+		
+		return groups;
 	}
 	
 	public GroupHelper fillGroupForm(GroupData group) {
@@ -105,13 +100,22 @@ public class GroupHelper extends BaseHelperWeb{
 	*/
 	public GroupData getGroupFormData() {
 		GroupData group = new GroupData()
-		.withName(getFieldValue(By.name("group_name")))
-		.withHeader(getFieldText(By.name("group_header")))
-		.withFooter(getFieldText(By.name("group_footer")));
+			.withId(getFieldValue(By.name("id")))
+			.withName(getFieldValue(By.name("group_name")))
+			.withHeader(getFieldText(By.name("group_header")))
+			.withFooter(getFieldText(By.name("group_footer")));
 		
 		return group;
 	}
 	
+	public GroupData getGroupFromDBByUIIndex(int index) {
+		GroupData group = new GroupData();
+		
+		manager.navigateTo().groupsPage();
+		group = manager.getHibernateHelper().getGroupById(index);
+		
+		return group;
+	}
 	//----------------------------------------------------------------------------------------
 
 	public GroupHelper initGroupCreation() {
@@ -128,21 +132,18 @@ public class GroupHelper extends BaseHelperWeb{
 
 	public GroupHelper submitGroupCreation() {
 		click(By.name("submit"));
-		cachedGroups = null;
 		
 		return this;
 	}
 	
 	public GroupHelper submitGroupModification() {
 		click(By.name("update"));
-		cachedGroups = null;
 		
 		return this;
 	}
 	
 	private GroupHelper submitGroupDeletion() {
 		click(By.name("delete"));
-		cachedGroups = null;
 		
 		return this;
 	}

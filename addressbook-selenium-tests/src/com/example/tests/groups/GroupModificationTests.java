@@ -14,20 +14,22 @@ public class GroupModificationTests extends TestBase{
 	
 	@Test(dataProvider = "randomValidGroupGenerator")
 	public void modifySomeGroup(GroupData groupModificationData){	    
-	    //save old state
-		SortedListOf<GroupData> oldList= app.getGroupHelper().getGroups();
+	    //save old state from DB
+		SortedListOf<GroupData> oldList = app.getModel().getGroups();
 	    
 	    Random rnd = new Random();
 	    int index = rnd.nextInt(oldList.size()-1);
 	    
 	    //actions
-	    GroupData groupBeforeModification = app.getGroupHelper().modifyGroup(index, groupModificationData);
+	    GroupData groupBeforeModificationDBFilled = app.getGroupHelper().getGroupFromDBByUIIndex(index);
+	    GroupData groupBeforeModificationUIFilled = app.getGroupHelper().modifyGroup(index, groupModificationData);
+	    assertThat(groupBeforeModificationDBFilled, equalTo(groupBeforeModificationUIFilled));	    
 	    
-	    //save new state
-	    SortedListOf<GroupData> newList= app.getGroupHelper().getGroups();
+	    //save new state from UI
+	    SortedListOf<GroupData> newList = app.getGroupHelper().getGroups();
 	    
 	    //compare states
-	    assertThat(newList, equalTo(oldList.without(groupBeforeModification).withAdded(groupModificationData)));
+	    assertThat(newList, equalTo(oldList.without(groupBeforeModificationUIFilled).withAdded(groupModificationData)));
 	}
 	
 }
