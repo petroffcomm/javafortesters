@@ -74,4 +74,9 @@ public abstract class BaseHelperWeb extends BaseHelper{
 	protected String getFieldText(By locator) {
 		return driver.findElement(locator).getText();
 	}
+	
+	protected String getSelectedOptionValue(String name) {
+		return driver.findElement(By.xpath("//select[@name='" + name + "']/option[@selected='selected']")).getAttribute("value");
+	}
+
 }

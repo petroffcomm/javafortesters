@@ -31,7 +31,7 @@ public class ApplicationModel {
 		return this;
 	}
 	
-	public ApplicationModel addGroup(ContactData contact) {
+	public ApplicationModel addContact(ContactData contact) {
 		contacts.add(contact);
 		return this;
 	}
@@ -41,7 +41,7 @@ public class ApplicationModel {
 		return this;
 	}
 	
-	public ApplicationModel removeGroup(ContactData contact) {
+	public ApplicationModel removeContact(ContactData contact) {
 		contacts.remove(contact);
 		return this;
 	}

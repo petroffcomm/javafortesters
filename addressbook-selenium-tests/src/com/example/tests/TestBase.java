@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
+import java.util.Random;
 
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
@@ -67,6 +68,19 @@ public class TestBase {
 			list.add(new Object[]{contact});
 		}
 		return list;
+	}
+	
+	public int getRandomIndexForList(List list){
+		Random rnd = new Random();
+		int size = list.size();
+		
+		if (size <= 0){
+			return 0;
+		}else if (size == 1){
+			return size;
+		}else{
+			return rnd.nextInt(size - 1);
+		}
 	}
 	
 }

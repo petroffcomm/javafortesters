@@ -3,8 +3,6 @@ package com.example.tests.contacts;
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-import java.util.Random;
-
 import org.testng.annotations.Test;
 
 import com.example.tests.TestBase;
@@ -15,16 +13,15 @@ public class ContactRemovalTests extends TestBase{
 	@Test
 	public void deleteSomeContact(){
 		
-		//save old state
-		SortedListOf<ContactData> oldList = app.getContactHelper().getContacts();
+		//save old state from DB
+		SortedListOf<ContactData> oldList = app.getModel().getContacts();
 	    
-	    Random rnd = new Random();
-	    int index = rnd.nextInt(oldList.size()-1);
+		int index = getRandomIndexForList(oldList);
 	    
 	    //actions
 	    ContactData contactDeleted = app.getContactHelper().deleteContact(index);
 	    
-	    //save new state
+	    //save new state from UI
 	    SortedListOf<ContactData> newList = app.getContactHelper().getContacts();
 	    
 	    //compare states

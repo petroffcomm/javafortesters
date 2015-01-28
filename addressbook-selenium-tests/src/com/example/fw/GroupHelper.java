@@ -100,7 +100,7 @@ public class GroupHelper extends BaseHelperWeb{
 	*/
 	public GroupData getGroupFormData() {
 		GroupData group = new GroupData()
-			.withId(getFieldValue(By.name("id")))
+			//.withId(getFieldValue(By.name("id")))
 			.withName(getFieldValue(By.name("group_name")))
 			.withHeader(getFieldText(By.name("group_header")))
 			.withFooter(getFieldText(By.name("group_footer")));
@@ -109,13 +109,12 @@ public class GroupHelper extends BaseHelperWeb{
 	}
 	
 	public GroupData getGroupFromDBByUIIndex(int index) {
-		GroupData group = new GroupData();
-		
 		manager.navigateTo().groupsPage();
-		group = manager.getHibernateHelper().getGroupById(index);
+		int objId = getGroupIdByIndex(index);
 		
-		return group;
+		return manager.getHibernateHelper().getGroupByObjectId(objId);
 	}
+
 	//----------------------------------------------------------------------------------------
 
 	public GroupHelper initGroupCreation() {
@@ -162,6 +161,11 @@ public class GroupHelper extends BaseHelperWeb{
 		return getGroupNameFromCheckboxTitle(checkbox);
 	}
 
+	private int getGroupIdByIndex(int index) {
+		WebElement checkbox = driver.findElement(By.xpath("//input[@name='selected[]'][" + (index+1) + "]"));
+		return Integer.parseInt(checkbox.getAttribute("value"));
+	}
+	
 	private String getGroupNameFromCheckboxTitle(WebElement checkbox) {
 		//get checkbox title
 		String title = checkbox.getAttribute("title");

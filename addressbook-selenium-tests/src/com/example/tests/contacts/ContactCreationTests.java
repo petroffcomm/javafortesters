@@ -24,13 +24,13 @@ public class ContactCreationTests extends TestBase {
   @Test(dataProvider = "randomValidContactGenerator")
   public void testContactCreationWithValidData(ContactData contactCreationData) throws Exception {
 	    
-    //save old state
-    SortedListOf<ContactData> oldList = app.getContactHelper().getContacts();
+	//save old state from DB
+    SortedListOf<ContactData> oldList = app.getModel().getContacts();
 
     //actions
     app.getContactHelper().createContact(contactCreationData);
     
-    //save new state
+    //save new state from UI
     SortedListOf<ContactData> newList = app.getContactHelper().getContacts();
     
     //compare states

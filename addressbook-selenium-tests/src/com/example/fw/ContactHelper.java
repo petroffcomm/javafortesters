@@ -17,7 +17,6 @@ public class ContactHelper extends BaseHelperWeb{
 	private ContactData lastCreatedContact;
 	private ContactData contactBeforeModification;
 	private ContactData lastDeletedContact;
-	private SortedListOf<ContactData> cachedContacts;
 		
 	public ContactData createContact(ContactData contact) {
 		manager.navigateTo().mainPage();
@@ -27,7 +26,9 @@ public class ContactHelper extends BaseHelperWeb{
 	    lastCreatedContact = getContactFormData();
 	    submitContactCreation();
 	    gotoHomePage();
-	    rebuildCache();
+	    
+		//update model of tested application
+		manager.getModel().addContact(contact);
 	    
 	    return lastCreatedContact;
 	}
@@ -43,7 +44,9 @@ public class ContactHelper extends BaseHelperWeb{
 		fillContactForm(contact);		
 		submitContactModification();
 		gotoHomePage();
-	    rebuildCache();
+	    
+	    //update model of tested application
+	    manager.getModel().removeContact(contactBeforeModification).addContact(contact);
 		
 		return contactBeforeModification;
 	}	
@@ -55,25 +58,15 @@ public class ContactHelper extends BaseHelperWeb{
 		lastDeletedContact = getContactFormData();
 		submitContactDeletion();
 		gotoHomePage();
-		rebuildCache();
+
+		//update model of tested application
+		manager.getModel().removeContact(lastDeletedContact);
 		
 		return lastDeletedContact;
 	}
 	
-	public SortedListOf<ContactData> getContacts(){
-		if (cachedContacts==null){
-			rebuildCache();
-		}
-		
-		return cachedContacts;
-	}
-	
-	private void rebuildCache() {
-		cachedContacts = (SortedListOf<ContactData>)manager.getHibernateHelper().listContacts();	
-	}
-	
-	private void rebuildCacheFromUI() {
-		cachedContacts = new SortedListOf<ContactData>();
+	public SortedListOf<ContactData> getContacts() {
+		SortedListOf<ContactData> contacts = new SortedListOf<ContactData>();
 		
 		manager.navigateTo().mainPage();
 		List<WebElement> trows = driver.findElements(By.xpath("//table[@id='maintable']/tbody/tr[@name='entry']"));
@@ -84,11 +77,13 @@ public class ContactHelper extends BaseHelperWeb{
 			String fstEmail = trow.findElement(By.xpath("./td[4]")).getText();
 			String homePhone = trow.findElement(By.xpath("./td[5]")).getText();
 			
-			cachedContacts.add(new ContactData().withFname(fname)
-												.withLname(lname)
-												.withFirstEmail(fstEmail)
-												.withHomePhone(homePhone));			
-		}		
+			contacts.add(new ContactData().withFname(fname)
+										  .withLname(lname)
+										  .withFirstEmail(fstEmail)
+										  .withHomePhone(homePhone));			
+		}
+		
+		return contacts;
 	}
 
 	public SortedListOf<String> getPrintedViewForContacts() {
@@ -131,13 +126,29 @@ public class ContactHelper extends BaseHelperWeb{
 	*/
 	public ContactData getContactFormData() {
 		ContactData contact = new ContactData()
-			.withId(getFieldValue(By.name("id")))
+			//.withId(getFieldValue(By.name("id")))
 			.withFname(getFieldValue(By.name("firstname")))
 			.withLname(getFieldValue(By.name("lastname")))
+			.withPrimaryAddr(getFieldText(By.name("address")))
+			.withHomePhone(getFieldValue(By.name("home")))
+			.withMobilePhone(getFieldValue(By.name("mobile")))
+			.withWorkPhone(getFieldValue(By.name("work")))
 			.withFirstEmail(getFieldValue(By.name("email")))
-			.withHomePhone(getFieldValue(By.name("home")));
+			.withSecondEmail(getFieldValue(By.name("email2")))
+			.withBirthDay(getSelectedOptionValue("bday"))
+			.withBirthMonth(getSelectedOptionValue("bmonth"))
+			.withBirthYear(getFieldValue(By.name("byear")))
+			.withSecondAddr(getFieldText(By.name("address2")))
+			.withSecondHomePhone(getFieldValue(By.name("phone2")));
 		
 		return contact;
+	}
+
+	public ContactData getContactFromDBByUIIndex(int index) {
+		manager.navigateTo().mainPage();		
+		int objId = getContactIdByIndex(index);
+		
+		return manager.getHibernateHelper().getContactByObjectId(objId);
 	}
 	
 	//----------------------------------------------------------------------------------------
@@ -157,21 +168,18 @@ public class ContactHelper extends BaseHelperWeb{
 
 	public ContactHelper submitContactCreation() {
 		click(By.name("submit"));
-		cachedContacts = null;
 		
 		return this;
 	}
 
 	public ContactHelper submitContactModification() {
 		click(By.xpath("//input[@type='submit'][@value='Update']"));
-		cachedContacts = null;
 		
 		return this;
 	}
 
 	public ContactHelper submitContactDeletion() {
 		click(By.xpath("//input[@type='submit'][@value='Delete']"));
-		cachedContacts = null;
 		
 		return this;
 	}
@@ -185,4 +193,10 @@ public class ContactHelper extends BaseHelperWeb{
 		click(By.xpath("//table[@id='maintable']/tbody/tr[@name='entry']["+ (index + 1) +"]/td[1]/input[@type='checkbox']"));
 	}
 	
+	private int getContactIdByIndex(int index) {
+		WebElement checkbox = driver.findElement(By.xpath("//table[@id='maintable']/tbody/tr[@name='entry']["+ (index + 1) +"]/td[1]/input[@type='checkbox']"));
+		
+		return Integer.parseInt(checkbox.getAttribute("value"));
+	}
+
 }

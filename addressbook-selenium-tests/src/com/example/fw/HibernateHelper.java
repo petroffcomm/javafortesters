@@ -27,7 +27,7 @@ public class HibernateHelper extends BaseHelper {
 		}
 	}
 	
-	public GroupData getGroupById(int index) {
+	public GroupData getGroupByObjectId(int index) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		Transaction trans = session.beginTransaction();
 		try {
@@ -44,6 +44,17 @@ public class HibernateHelper extends BaseHelper {
 		try {
           return new SortedListOf<ContactData>(
               (List<ContactData>) session.createQuery("from ContactData").list());
+		} finally {
+          trans.commit();
+		}
+	}
+	
+	public ContactData getContactByObjectId(int index) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		Transaction trans = session.beginTransaction();
+		try {
+			return (ContactData) session.createCriteria(ContactData.class).add(Expression.eq("id", Integer.toString(index))).list().get(0);
+			
 		} finally {
           trans.commit();
 		}

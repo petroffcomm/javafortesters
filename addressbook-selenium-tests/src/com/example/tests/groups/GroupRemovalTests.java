@@ -3,8 +3,6 @@ package com.example.tests.groups;
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-import java.util.Random;
-
 import org.testng.annotations.Test;
 
 import com.example.tests.TestBase;
@@ -17,8 +15,7 @@ public class GroupRemovalTests extends TestBase{
 	    //save old state from DB
 		SortedListOf<GroupData> oldList = app.getModel().getGroups();
 	    
-	    Random rnd = new Random();
-	    int index = rnd.nextInt(oldList.size()-1);
+	    int index = getRandomIndexForList(oldList);
 
 	    //actions
 		GroupData groupDeleted = app.getGroupHelper().deleteGroup(index);

@@ -230,6 +230,37 @@ public class ContactData implements Comparable<ContactData>{
 				+ "]";
 	}
 
+	/*	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((birthDay == null) ? 0 : birthDay.hashCode());
+		result = prime * result
+				+ ((birthMonth == null) ? 0 : birthMonth.hashCode());
+		result = prime * result
+				+ ((birthYear == null) ? 0 : birthYear.hashCode());
+		result = prime * result
+				+ ((firstEmail == null) ? 0 : firstEmail.hashCode());
+		result = prime * result + ((fname == null) ? 0 : fname.hashCode());
+		result = prime * result
+				+ ((homePhone == null) ? 0 : homePhone.hashCode());
+		result = prime * result + ((lname == null) ? 0 : lname.hashCode());
+		result = prime * result
+				+ ((mobilePhone == null) ? 0 : mobilePhone.hashCode());
+		result = prime * result
+				+ ((primaryAddr == null) ? 0 : primaryAddr.hashCode());
+		result = prime * result
+				+ ((secondAddr == null) ? 0 : secondAddr.hashCode());
+		result = prime * result
+				+ ((secondEmail == null) ? 0 : secondEmail.hashCode());
+		result = prime * result
+				+ ((secondHomePhone == null) ? 0 : secondHomePhone.hashCode());
+		result = prime * result
+				+ ((workPhone == null) ? 0 : workPhone.hashCode());
+		return result;
+	}*/
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -274,6 +305,82 @@ public class ContactData implements Comparable<ContactData>{
 			return false;
 		return true;
 	}
+
+	public boolean isFullyEqualTo(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ContactData other = (ContactData) obj;
+		if (birthDay == null) {
+			if (other.birthDay != null)
+				return false;
+		} else if (!birthDay.equals(other.birthDay))
+			return false;
+		if (birthMonth == null) {
+			if (other.birthMonth != null)
+				return false;
+		} else if (!birthMonth.equals(other.birthMonth))
+			return false;
+		if (birthYear == null) {
+			if (other.birthYear != null)
+				return false;
+		} else if (!birthYear.equals(other.birthYear))
+			return false;
+		if (firstEmail == null) {
+			if (other.firstEmail != null)
+				return false;
+		} else if (!firstEmail.equals(other.firstEmail))
+			return false;
+		if (fname == null) {
+			if (other.fname != null)
+				return false;
+		} else if (!fname.equals(other.fname))
+			return false;
+		if (homePhone == null) {
+			if (other.homePhone != null)
+				return false;
+		} else if (!homePhone.equals(other.homePhone))
+			return false;
+		if (lname == null) {
+			if (other.lname != null)
+				return false;
+		} else if (!lname.equals(other.lname))
+			return false;
+		if (mobilePhone == null) {
+			if (other.mobilePhone != null)
+				return false;
+		} else if (!mobilePhone.equals(other.mobilePhone))
+			return false;
+		if (primaryAddr == null) {
+			if (other.primaryAddr != null)
+				return false;
+		} else if (!primaryAddr.equals(other.primaryAddr))
+			return false;
+		if (secondAddr == null) {
+			if (other.secondAddr != null)
+				return false;
+		} else if (!secondAddr.equals(other.secondAddr))
+			return false;
+		if (secondEmail == null) {
+			if (other.secondEmail != null)
+				return false;
+		} else if (!secondEmail.equals(other.secondEmail))
+			return false;
+		if (secondHomePhone == null) {
+			if (other.secondHomePhone != null)
+				return false;
+		} else if (!secondHomePhone.equals(other.secondHomePhone))
+			return false;
+		if (workPhone == null) {
+			if (other.workPhone != null)
+				return false;
+		} else if (!workPhone.equals(other.workPhone))
+			return false;
+		return true;
+	}	
 	
 	@Override
 	public int compareTo(ContactData other) {
@@ -292,7 +399,7 @@ public class ContactData implements Comparable<ContactData>{
 		}
 		return result;
 	}
-	
+
 	private int comparisonWithCheckForNULL(Object obj1, Object obj2){
 		String param1 = (String) obj1;
 		String param2 = (String) obj2;
