@@ -1,7 +1,6 @@
 package com.example.tests.contacts;
 
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 import static org.hamcrest.Matchers.*;
 
 import org.testng.annotations.Test;
@@ -22,7 +21,7 @@ public class ContactModificationTests extends TestBase{
 	    //actions
 	    ContactData dbFilledContactBeforeModification = app.getContactHelper().getContactFromDBByUIIndex(index);
 	    ContactData uiFilledContactBeforeModification = app.getContactHelper().modifyContact(index, contactModificationData);
-	    assertTrue(dbFilledContactBeforeModification.isFullyEqualTo(uiFilledContactBeforeModification));
+	    assertThat(dbFilledContactBeforeModification, samePropertyValuesAs(uiFilledContactBeforeModification));
 		
 	    //save new state from UI
 		SortedListOf<ContactData> newList = app.getContactHelper().getContacts();

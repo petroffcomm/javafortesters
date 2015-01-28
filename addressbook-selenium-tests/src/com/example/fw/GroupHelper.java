@@ -100,7 +100,7 @@ public class GroupHelper extends BaseHelperWeb{
 	*/
 	public GroupData getGroupFormData() {
 		GroupData group = new GroupData()
-			//.withId(getFieldValue(By.name("id")))
+			.withId(getFieldValue(By.name("id")))
 			.withName(getFieldValue(By.name("group_name")))
 			.withHeader(getFieldText(By.name("group_header")))
 			.withFooter(getFieldText(By.name("group_footer")));

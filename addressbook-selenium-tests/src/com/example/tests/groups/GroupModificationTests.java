@@ -1,7 +1,6 @@
 package com.example.tests.groups;
 
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 import static org.hamcrest.Matchers.*;
 
 import org.testng.annotations.Test;
@@ -26,8 +25,7 @@ public class GroupModificationTests extends TestBase{
 	    GroupData uiFilledgroupBeforeModification = app.getGroupHelper().modifyGroup(index, groupModificationData);
 	   
 	    //check, that UI form have the same field values as in corresponding DB-record  
-	    //assertThat(dbFilledGroupBeforeModification, samePropertyValuesAs(uiFilledgroupBeforeModification));	    
-	    assertTrue(dbFilledGroupBeforeModification.isFullyEqualTo(uiFilledgroupBeforeModification));
+	    assertThat(dbFilledGroupBeforeModification, samePropertyValuesAs(uiFilledgroupBeforeModification));	    
 	    
 	    //save new state from UI
 	    SortedListOf<GroupData> newList = app.getGroupHelper().getGroups();

@@ -126,7 +126,7 @@ public class ContactHelper extends BaseHelperWeb{
 	*/
 	public ContactData getContactFormData() {
 		ContactData contact = new ContactData()
-			//.withId(getFieldValue(By.name("id")))
+			.withId(getFieldValue(By.name("id")))
 			.withFname(getFieldValue(By.name("firstname")))
 			.withLname(getFieldValue(By.name("lastname")))
 			.withPrimaryAddr(getFieldText(By.name("address")))
