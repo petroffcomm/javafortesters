@@ -9,6 +9,10 @@ import org.openqa.selenium.support.ui.Select;
 
 public abstract class BaseHelperWeb extends BaseHelper{
 	
+	protected static final int CREATION = 1;
+	protected static final int MODIFICATION = 2;
+	protected static final int DELETION = 3;
+	
 	protected WebDriver driver;
 	public boolean acceptNextAlert = true;
 

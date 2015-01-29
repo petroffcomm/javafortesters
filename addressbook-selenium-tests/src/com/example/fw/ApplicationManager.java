@@ -1,5 +1,6 @@
 package com.example.fw;
 
+import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
@@ -7,6 +8,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+
+import com.example.tests.contacts.ContactData;
+import com.example.tests.groups.GroupData;
 
 public class ApplicationManager {
 	
@@ -27,10 +31,10 @@ public class ApplicationManager {
 		this.properties = properties;
 		
 		this.model = new ApplicationModel();
-		model.setGroups(getHibernateHelper().listGroups());
-		model.setContacts(getHibernateHelper().listContacts());
+		model.setGroups(getGroupsFromDB());
+		model.setContacts(getContactsFromDB());
 	}
-	
+
 	public void stop() {
 	    driver.quit();
 	}
@@ -69,7 +73,7 @@ public class ApplicationManager {
 		}
 		return hibernateHelper;
 	}
-
+	
 	public WebDriver getDriver() {
 		
 		if (driver==null) {
@@ -87,7 +91,7 @@ public class ApplicationManager {
 			}
 			
 			baseUrl = properties.getProperty("baseUrl");
-		    driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		    driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		    driver.get(baseUrl);
 		}
 		
@@ -98,6 +102,14 @@ public class ApplicationManager {
 		return model;
 	}
 
+	public List<ContactData> getContactsFromDB() {
+		return getHibernateHelper().listContacts();
+	}
+
+	public List<GroupData> getGroupsFromDB() {
+		return getHibernateHelper().listGroups();
+	}
+	
 	public String getProperty(String key) {
 		return properties.getProperty(key);
 	}

@@ -12,19 +12,19 @@ public class GroupRemovalTests extends TestBase{
 	
 	@Test
 	public void deleteSomeGroup(){	    
-	    //save old state from DB
+		//save old state from DB
 		SortedListOf<GroupData> oldList = app.getModel().getGroups();
-	    
-	    int index = getRandomIndexForList(oldList);
+		
+		int index = getRandomIndexForList(oldList);
 
-	    //actions
+		//actions
 		GroupData groupDeleted = app.getGroupHelper().deleteGroup(index);
-	    
-	    //save new state from UI
+		
+		//save new state from UI
 		SortedListOf<GroupData> newList = app.getGroupHelper().getGroups();
-	    
-	    //compare states	    
-	    assertThat(newList, equalTo(oldList.without(groupDeleted)));
+		
+		//compare states	    
+		assertThat(newList, equalTo(oldList.without(groupDeleted)));
 	}
 
 }

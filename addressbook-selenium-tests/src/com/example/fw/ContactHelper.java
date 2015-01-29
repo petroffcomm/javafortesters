@@ -23,7 +23,7 @@ public class ContactHelper extends BaseHelperWeb{
 		
 		initContactCreation();
 	    fillContactForm(contact);
-	    lastCreatedContact = getContactFormData();
+	    lastCreatedContact = getContactFormData(CREATION);
 	    submitContactCreation();
 	    gotoHomePage();
 	    
@@ -39,7 +39,7 @@ public class ContactHelper extends BaseHelperWeb{
 		initContactModification(index);
 		
 		//save contact data before modification
-		contactBeforeModification = getContactFormData();
+		contactBeforeModification = getContactFormData(MODIFICATION);
 		
 		fillContactForm(contact);		
 		submitContactModification();
@@ -55,7 +55,7 @@ public class ContactHelper extends BaseHelperWeb{
 		manager.navigateTo().mainPage();
 		
 		initContactModification(index);
-		lastDeletedContact = getContactFormData();
+		lastDeletedContact = getContactFormData(DELETION);
 		submitContactDeletion();
 		gotoHomePage();
 
@@ -124,9 +124,8 @@ public class ContactHelper extends BaseHelperWeb{
 	In this case it's necessary to get actual information about values were actually contained by form 
 	at the submission moment.
 	*/
-	public ContactData getContactFormData() {
+	public ContactData getContactFormData(int formType) {
 		ContactData contact = new ContactData()
-			.withId(getFieldValue(By.name("id")))
 			.withFname(getFieldValue(By.name("firstname")))
 			.withLname(getFieldValue(By.name("lastname")))
 			.withPrimaryAddr(getFieldText(By.name("address")))
@@ -141,12 +140,16 @@ public class ContactHelper extends BaseHelperWeb{
 			.withSecondAddr(getFieldText(By.name("address2")))
 			.withSecondHomePhone(getFieldValue(By.name("phone2")));
 		
+		if (formType != CREATION){
+			contact.setId(getFieldValue(By.name("id")));
+		}
+		
 		return contact;
 	}
 
 	public ContactData getContactFromDBByUIIndex(int index) {
 		manager.navigateTo().mainPage();		
-		int objId = getContactIdByIndex(index);
+		String objId = getContactIdByIndex(index);
 		
 		return manager.getHibernateHelper().getContactByObjectId(objId);
 	}
@@ -193,10 +196,10 @@ public class ContactHelper extends BaseHelperWeb{
 		click(By.xpath("//table[@id='maintable']/tbody/tr[@name='entry']["+ (index + 1) +"]/td[1]/input[@type='checkbox']"));
 	}
 	
-	private int getContactIdByIndex(int index) {
+	private String getContactIdByIndex(int index) {
 		WebElement checkbox = driver.findElement(By.xpath("//table[@id='maintable']/tbody/tr[@name='entry']["+ (index + 1) +"]/td[1]/input[@type='checkbox']"));
 		
-		return Integer.parseInt(checkbox.getAttribute("value"));
+		return checkbox.getAttribute("value");
 	}
 
 }

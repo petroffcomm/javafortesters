@@ -14,20 +14,25 @@ public class ContactModificationTests extends TestBase{
 	public void modifySomeContact(ContactData contactModificationData){
 		
 		//save old state from DB
-	    SortedListOf<ContactData> oldList = app.getContactHelper().getContacts();
+		SortedListOf<ContactData> oldList = app.getContactHelper().getContacts();
 	    
-	    int index = getRandomIndexForList(oldList);
-	    
-	    //actions
-	    ContactData dbFilledContactBeforeModification = app.getContactHelper().getContactFromDBByUIIndex(index);
-	    ContactData uiFilledContactBeforeModification = app.getContactHelper().modifyContact(index, contactModificationData);
-	    assertThat(dbFilledContactBeforeModification, samePropertyValuesAs(uiFilledContactBeforeModification));
+		int index = getRandomIndexForList(oldList);
+	
+		//actions
+		//get DB-record for modified group and pack it into ContactData-object
+		ContactData dbFilledContactBeforeModification = app.getContactHelper().getContactFromDBByUIIndex(index);
 		
-	    //save new state from UI
+		//modify contact
+		ContactData uiFilledContactBeforeModification = app.getContactHelper().modifyContact(index, contactModificationData);
+		
+		//check, that UI form have the same field values as in corresponding DB-record
+		assertThat(dbFilledContactBeforeModification, samePropertyValuesAs(uiFilledContactBeforeModification));
+		
+		//save new state from UI
 		SortedListOf<ContactData> newList = app.getContactHelper().getContacts();
-	    
+		
 		//compare states
-	    assertThat(newList, equalTo(oldList.without(uiFilledContactBeforeModification).withAdded(contactModificationData)));
+		assertThat(newList, equalTo(oldList.without(uiFilledContactBeforeModification).withAdded(contactModificationData)));
 	}
 
 }

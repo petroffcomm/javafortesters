@@ -15,7 +15,7 @@ public class Sample {
 		props.load(new FileReader(new File("config\\application.properties")));
 		ApplicationManager app = new ApplicationManager(props);
 		//System.out.println(app.getHibernateHelper().listGroups());
-		System.out.println(app.getHibernateHelper().getGroupByObjectId(169));
+		System.out.println(app.getHibernateHelper().getGroupByObjectId("169"));
 	}
 
 }

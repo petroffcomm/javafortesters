@@ -23,7 +23,8 @@ public class GroupHelper extends BaseHelperWeb{
 		
 		initGroupCreation();
 		fillGroupForm(group);
-		lastCreatedGroup = getGroupFormData();
+		lastCreatedGroup = getGroupFormData(CREATION);
+		lastCreatedGroup = group;
 		submitGroupCreation();
 		returnToGroupsPage();
 
@@ -38,7 +39,7 @@ public class GroupHelper extends BaseHelperWeb{
 		
 	    initGroupModification(index);
 	    
-	    groupBeforeModification = getGroupFormData();
+	    groupBeforeModification = getGroupFormData(MODIFICATION);
 	    
 	    fillGroupForm(group);
 	    submitGroupModification();
@@ -55,7 +56,9 @@ public class GroupHelper extends BaseHelperWeb{
 		
 		selectGroupByIndex(index);
 		
-		lastDeletedGroup = new GroupData().withName(getGroupNameByIndex(index));
+		lastDeletedGroup = new GroupData()
+								.withName(getGroupNameByIndex(index))
+								.withId(getGroupIdByIndex(index));
 		
 		submitGroupDeletion();
 		returnToGroupsPage();
@@ -98,19 +101,22 @@ public class GroupHelper extends BaseHelperWeb{
 	In this case it's necessary to get actual information about values were actually contained by form 
 	at the submission moment.
 	*/
-	public GroupData getGroupFormData() {
-		GroupData group = new GroupData()
-			.withId(getFieldValue(By.name("id")))
+	public GroupData getGroupFormData(int formType) {
+		GroupData group = new GroupData()			
 			.withName(getFieldValue(By.name("group_name")))
 			.withHeader(getFieldText(By.name("group_header")))
 			.withFooter(getFieldText(By.name("group_footer")));
+		
+		if (formType == MODIFICATION){
+			group.setId(getFieldValue(By.name("id")));
+		}			
 		
 		return group;
 	}
 	
 	public GroupData getGroupFromDBByUIIndex(int index) {
 		manager.navigateTo().groupsPage();
-		int objId = getGroupIdByIndex(index);
+		String objId = getGroupIdByIndex(index);
 		
 		return manager.getHibernateHelper().getGroupByObjectId(objId);
 	}
@@ -161,9 +167,9 @@ public class GroupHelper extends BaseHelperWeb{
 		return getGroupNameFromCheckboxTitle(checkbox);
 	}
 
-	private int getGroupIdByIndex(int index) {
+	private String getGroupIdByIndex(int index) {
 		WebElement checkbox = driver.findElement(By.xpath("//input[@name='selected[]'][" + (index+1) + "]"));
-		return Integer.parseInt(checkbox.getAttribute("value"));
+		return checkbox.getAttribute("value");
 	}
 	
 	private String getGroupNameFromCheckboxTitle(WebElement checkbox) {
