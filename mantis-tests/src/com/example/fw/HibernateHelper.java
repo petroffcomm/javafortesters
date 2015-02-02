@@ -1,13 +1,11 @@
 package com.example.fw;
 
-import java.util.List;
-
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.SimpleExpression;
 
-import com.example.utils.SortedListOf;
+import com.example.tests.UserData;
 
 public class HibernateHelper extends BaseHelper {
 
@@ -15,52 +13,36 @@ public class HibernateHelper extends BaseHelper {
 	  super(manager);
 	}
 
-	/*public List<GroupData> listGroups() {
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		Transaction trans = session.beginTransaction();
-		
-		try {
-			return new SortedListOf<GroupData>((List<GroupData>) session.createQuery("from GroupData").list());
-		} finally {
-			trans.commit();
-		}		
+	protected SimpleExpression equalByLogin(String login) {
+		return Restrictions.eq("login", login);
 	}
-	
-	public GroupData getGroupByObjectId(String objID) {
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		Transaction trans = session.beginTransaction();
-		
-		try {
-				return (GroupData) session.createCriteria(GroupData.class).add(equalById(objID)).list().get(0);
-		} finally {
-			trans.commit();
-		}		
-	}
-	
-	public List<ContactData> listContacts() {
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		Transaction trans = session.beginTransaction();
-		
-		try {
-			return new SortedListOf<ContactData>((List<ContactData>) session.createQuery("from ContactData").list());
-		} finally {
-			trans.commit();
-		}		
-	}
-	
-	public ContactData getContactByObjectId(String objID) {
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		Transaction trans = session.beginTransaction();
-		
-		try {
-			return (ContactData) session.createCriteria(ContactData.class).add(equalById(objID)).list().get(0);
-		} finally {
-			trans.commit();
-		}		
-	}*/
 
-	protected SimpleExpression equalById(String objectID) {
-		return Restrictions.eq("id", objectID);
+	public boolean doesUserExists(String login) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		Transaction trans = session.beginTransaction();
+		try {			
+			return !(session.createCriteria(UserData.class)
+							.add(equalByLogin(login))
+							.list()
+							.isEmpty());			
+		} finally {
+			trans.commit();
+		}
+	}
+
+	public boolean deleteUser(String login) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		Transaction trans = session.beginTransaction();
+		try {
+			UserData user = (UserData)session.createCriteria(UserData.class)
+								.add(equalByLogin(login))
+								.list()
+								.get(0);
+			session.delete(user);
+			return true;			
+		} finally {
+			trans.commit();
+		}	
 	}
 	
 }

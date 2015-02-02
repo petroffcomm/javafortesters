@@ -18,7 +18,6 @@
     <!-- this will show us all sql statements -->
     <property name="hibernate.show_sql">true</property>
     <!-- mapping files -->
-    <!-- mapping resource="GroupData.hbm.xml" />
-    <mapping resource="ContactData.hbm.xml" /-->
+    <mapping resource="UserData.hbm.xml" />
 </session-factory>
 </hibernate-configuration>

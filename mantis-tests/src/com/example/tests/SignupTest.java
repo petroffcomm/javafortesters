@@ -4,20 +4,26 @@ import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
 import static org.testng.Assert.*;
 
 import com.example.fw.AccountHelper;
+import com.example.fw.HibernateHelper;
 import com.example.fw.JamesHelper;
-import com.example.fw.User;
 
 public class SignupTest extends TestBase {
 	
 	private JamesHelper james;
 	private AccountHelper acctHelper;
+	private HibernateHelper mantisDbHelper;
 	
-	User user = new User().setLogin("testuser")
+	UserData user = new UserData().setLogin("testuser")
+			  .setEmail("testuser@localhost.localdomain")
+			  .setPassword("testpassword");
+	UserData user2 = new UserData().setLogin("testuser2")
 			  .setEmail("testuser@localhost.localdomain")
 			  .setPassword("testpassword");
 	
@@ -25,6 +31,7 @@ public class SignupTest extends TestBase {
 	public void initShortcuts(){
 		james = app.getJamesHelper();
 		acctHelper = app.getAccountHelper();
+		mantisDbHelper = app.getHibernateHelper();
 	}
 	
 	@BeforeClass(dependsOnMethods = {"initShortcuts"})
@@ -34,18 +41,21 @@ public class SignupTest extends TestBase {
 		}
 	}
 	
-	@AfterClass
-	public void deleteMailUser(){
-		if (james.doesUserExist(user.login)){
-			james.deleteUser(user.login);
+	@BeforeClass(dependsOnMethods = {"initShortcuts"})
+	public void cleanMantisUser(){
+		if (mantisDbHelper.doesUserExists(user.login)){
+			mantisDbHelper.deleteUser(user.login);
 		}
 	}
 	
-	@Test
+	@Test(groups = {"needLogout"})
 	public void newUserShouldSignUp(){
-		acctHelper.signup(user);
-		acctHelper.login(user);
-		assertThat(acctHelper.loggedUsername(), equalTo(user.login));
+		try{
+			acctHelper.signup(user);
+			assertTrue(acctHelper.isLoginSuccessful(user));
+		}finally{
+			acctHelper.doMantisLogout();
+		}		
 	}
 
 	@Test(dependsOnMethods = {"newUserShouldSignUp"})
@@ -56,7 +66,15 @@ public class SignupTest extends TestBase {
 			assertThat(e.getMessage(), containsString("That username is already being used"));
 			return;
 		}
+		//This will trigger if "catch"-section will not trigger. 
 		fail("Existing user signed up.");
+	}
+	
+	@AfterClass
+	public void deleteMailUser(){
+		if (james.doesUserExist(user.login)){
+			james.deleteUser(user.login);
+		}
 	}
 
 }
