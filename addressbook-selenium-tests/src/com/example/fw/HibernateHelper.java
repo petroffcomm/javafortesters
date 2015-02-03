@@ -17,12 +17,12 @@ public class HibernateHelper extends BaseHelper {
 	  super(manager);
 	}
 
-	public List<GroupData> listGroups() {
+	public SortedListOf<GroupData> listGroups() {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		Transaction trans = session.beginTransaction();
 		
 		try {
-			return new SortedListOf<GroupData>((List<GroupData>) session.createQuery("from GroupData").list());
+			return new SortedListOf<GroupData>(session.createQuery("from GroupData").list());
 		} finally {
 			trans.commit();
 		}		
@@ -39,12 +39,12 @@ public class HibernateHelper extends BaseHelper {
 		}		
 	}
 	
-	public List<ContactData> listContacts() {
+	public SortedListOf<ContactData> listContacts() {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		Transaction trans = session.beginTransaction();
 		
 		try {
-			return new SortedListOf<ContactData>((List<ContactData>) session.createQuery("from ContactData").list());
+			return new SortedListOf<ContactData>(session.createQuery("from ContactData").list());
 		} finally {
 			trans.commit();
 		}		

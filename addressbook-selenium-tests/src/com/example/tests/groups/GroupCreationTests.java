@@ -1,6 +1,5 @@
 package com.example.tests.groups;
 
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
@@ -28,15 +27,15 @@ public class GroupCreationTests extends TestBase{
   @Test(dataProvider = "groupsFromFile")
   public void testGroupCreationWithValidData(GroupData groupCreationData) throws Exception {
 	//save old state from DB
-	SortedListOf<GroupData> oldList= app.getModel().getGroups();
+	SortedListOf<GroupData> oldList = app.getModel().getGroups();
     
     //actions
     app.getGroupHelper().createGroup(groupCreationData);
 	    
     //save new state from UI
-    SortedListOf<GroupData> newUIList= app.getGroupHelper().getGroups();
+    SortedListOf<GroupData> newUIList = app.getGroupHelper().getGroups();
     //save new state from DB    
-    SortedListOf<GroupData> newDBList= (SortedListOf<GroupData>)app.getGroupsFromDB();
+    SortedListOf<GroupData> newDBList = app.getGroupsFromDB();
     
     //compare states
     assertThat(newDBList, equalTo(oldList.withAdded(groupCreationData)));

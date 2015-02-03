@@ -24,7 +24,7 @@ public class ContactRemovalTests extends TestBase{
 		//save new state from UI
 		SortedListOf<ContactData> newUIList = app.getContactHelper().getContacts();
 		//save new state from DB
-		SortedListOf<ContactData> newDBList= (SortedListOf<ContactData>)app.getContactsFromDB();
+		SortedListOf<ContactData> newDBList= app.getContactsFromDB();
 		
 		//compare states
 		assertThat(newDBList, equalTo(oldList.without(contactDeleted)));

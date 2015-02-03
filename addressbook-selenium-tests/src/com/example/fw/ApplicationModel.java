@@ -22,7 +22,15 @@ public class ApplicationModel {
 		this.groups = new SortedListOf<GroupData>(groups);
 	}
 	
+	public void setGroups(SortedListOf<GroupData> groups){
+		this.groups = new SortedListOf<GroupData>(groups);
+	}
+	
 	public void setContacts(List<ContactData> contacts){
+		this.contacts = new SortedListOf<ContactData>(contacts);
+	}
+	
+	public void setContacts(SortedListOf<ContactData> contacts){
 		this.contacts = new SortedListOf<ContactData>(contacts);
 	}
 

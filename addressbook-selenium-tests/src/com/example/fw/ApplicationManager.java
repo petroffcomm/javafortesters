@@ -11,6 +11,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 import com.example.tests.contacts.ContactData;
 import com.example.tests.groups.GroupData;
+import com.example.utils.SortedListOf;
 
 public class ApplicationManager {
 	
@@ -102,11 +103,11 @@ public class ApplicationManager {
 		return model;
 	}
 
-	public List<ContactData> getContactsFromDB() {
+	public SortedListOf<ContactData> getContactsFromDB() {
 		return getHibernateHelper().listContacts();
 	}
 
-	public List<GroupData> getGroupsFromDB() {
+	public SortedListOf<GroupData> getGroupsFromDB() {
 		return getHibernateHelper().listGroups();
 	}
 	
