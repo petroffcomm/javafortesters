@@ -22,10 +22,13 @@ public class ContactRemovalTests extends TestBase{
 		ContactData contactDeleted = app.getContactHelper().deleteContact(index);
 		
 		//save new state from UI
-		SortedListOf<ContactData> newList = app.getContactHelper().getContacts();
+		SortedListOf<ContactData> newUIList = app.getContactHelper().getContacts();
+		//save new state from DB
+		SortedListOf<ContactData> newDBList= (SortedListOf<ContactData>)app.getContactsFromDB();
 		
 		//compare states
-		assertThat(newList, equalTo(oldList.without(contactDeleted)));
+		assertThat(newDBList, equalTo(oldList.without(contactDeleted)));
+		assertThat(newDBList, equalTo(newUIList));
 	}
 
 }

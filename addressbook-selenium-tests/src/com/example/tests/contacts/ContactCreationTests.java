@@ -31,10 +31,13 @@ public class ContactCreationTests extends TestBase {
     app.getContactHelper().createContact(contactCreationData);
     
     //save new state from UI
-    SortedListOf<ContactData> newList = app.getContactHelper().getContacts();
+    SortedListOf<ContactData> newUIList = app.getContactHelper().getContacts();
+    //save new state from DB
+    SortedListOf<ContactData> newDBList= (SortedListOf<ContactData>)app.getContactsFromDB();
     
     //compare states
-    assertThat(newList, equalTo(oldList.withAdded(contactCreationData)));
+    assertThat(newDBList, equalTo(oldList.withAdded(contactCreationData)));
+    assertThat(newDBList, equalTo(newUIList));
   }
   
 }
