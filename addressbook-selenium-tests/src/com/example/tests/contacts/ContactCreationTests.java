@@ -25,19 +25,21 @@ public class ContactCreationTests extends TestBase {
   public void testContactCreationWithValidData(ContactData contactCreationData) throws Exception {
 	    
 	//save old state from DB
-    SortedListOf<ContactData> oldList = app.getModel().getContacts();
+    SortedListOf<ContactData> oldModelState = app.getModel().getContacts();
 
     //actions
     app.getContactHelper().createContact(contactCreationData);
     
     //save new state from UI
-    SortedListOf<ContactData> newUIList = app.getContactHelper().getContacts();
+    SortedListOf<ContactData> currentUIState = app.getContactHelper().getContacts();
     //save new state from DB
-    SortedListOf<ContactData> newDBList= app.getContactsFromDB();
+    SortedListOf<ContactData> currentDBState= app.getContactsFromDB();
+    //save new state from Model
+    SortedListOf<ContactData> currentModelState = app.getModel().getContacts();
     
     //compare states
-    assertThat(newDBList, equalTo(oldList.withAdded(contactCreationData)));
-    assertThat(newDBList, equalTo(newUIList));
+    assertThat(currentDBState, equalTo(currentModelState));
+    assertThat(currentDBState, equalTo(currentUIState));
   }
   
 }

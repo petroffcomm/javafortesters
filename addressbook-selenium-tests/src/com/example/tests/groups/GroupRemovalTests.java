@@ -21,13 +21,15 @@ public class GroupRemovalTests extends TestBase{
 		GroupData groupDeleted = app.getGroupHelper().deleteGroup(index);
 		
 	    //save new state from UI
-	    SortedListOf<GroupData> newUIList = app.getGroupHelper().getGroups();
-	    //save new state from DB    
-	    SortedListOf<GroupData> newDBList = app.getGroupsFromDB();
+	    SortedListOf<GroupData> currentUIState = app.getGroupHelper().getGroups();
+	    //save new state from DB
+	    SortedListOf<GroupData> currentDBState = app.getGroupsFromDB();
+	    //save new state from Model
+	    SortedListOf<GroupData> currentModelState = app.getModel().getGroups();
 		
 		//compare states	    
-		assertThat(newDBList, equalTo(oldList.without(groupDeleted)));
-	    assertThat(newDBList, equalTo(newUIList));
+		assertThat(currentDBState, equalTo(currentModelState));
+	    assertThat(currentDBState, equalTo(currentUIState));
 	}
 
 }

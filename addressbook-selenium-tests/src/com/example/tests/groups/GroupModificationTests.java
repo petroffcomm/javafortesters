@@ -26,13 +26,15 @@ public class GroupModificationTests extends TestBase{
 		assertThat(dbFilledGroupBeforeModification, samePropertyValuesAs(uiFilledgroupBeforeModification));	    
 		
 	    //save new state from UI
-	    SortedListOf<GroupData> newUIList = app.getGroupHelper().getGroups();
-	    //save new state from DB    
-	    SortedListOf<GroupData> newDBList = app.getGroupsFromDB();
+	    SortedListOf<GroupData> currentUIState = app.getGroupHelper().getGroups();
+	    //save new state from DB
+	    SortedListOf<GroupData> currentDBState = app.getGroupsFromDB();
+	    //save new state from Model
+	    SortedListOf<GroupData> currentModelState = app.getModel().getGroups();
 		
 		//compare states
-		assertThat(newDBList, equalTo(oldList.without(uiFilledgroupBeforeModification).withAdded(groupModificationData)));
-		assertThat(newDBList, equalTo(newUIList));
+		assertThat(currentDBState, equalTo(currentModelState));
+		assertThat(currentDBState, equalTo(currentUIState));
 	}
 	
 }

@@ -10,7 +10,6 @@ import static org.hamcrest.Matchers.*;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-//import com.example.tests.GroupBaseTest;
 import com.example.tests.TestBase;
 import com.example.utils.SortedListOf;
 
@@ -27,19 +26,21 @@ public class GroupCreationTests extends TestBase{
   @Test(dataProvider = "groupsFromFile")
   public void testGroupCreationWithValidData(GroupData groupCreationData) throws Exception {
 	//save old state from DB
-	SortedListOf<GroupData> oldList = app.getModel().getGroups();
+	SortedListOf<GroupData> oldModelState = app.getModel().getGroups();
     
     //actions
     app.getGroupHelper().createGroup(groupCreationData);
 	    
     //save new state from UI
-    SortedListOf<GroupData> newUIList = app.getGroupHelper().getGroups();
-    //save new state from DB    
-    SortedListOf<GroupData> newDBList = app.getGroupsFromDB();
+    SortedListOf<GroupData> currentUIState = app.getGroupHelper().getGroups();
+    //save new state from DB
+    SortedListOf<GroupData> currentDBState = app.getGroupsFromDB();
+    //save new state from Model
+    SortedListOf<GroupData> currentModelState = app.getModel().getGroups();
     
     //compare states
-    assertThat(newDBList, equalTo(oldList.withAdded(groupCreationData)));
-    assertThat(newDBList, equalTo(newUIList));
+    assertThat(currentDBState, equalTo(currentModelState));
+    assertThat(currentDBState, equalTo(currentUIState));
   }
   
 }
