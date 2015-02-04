@@ -23,7 +23,7 @@ public class ContactCreationTests extends TestBase {
 	
   @Test(dataProvider = "randomValidContactGenerator")
   public void testContactCreationWithValidData(ContactData contactCreationData) throws Exception {
-	    
+	
 	//save old state from DB
     SortedListOf<ContactData> oldModelState = app.getModel().getContacts();
 
@@ -38,8 +38,15 @@ public class ContactCreationTests extends TestBase {
     SortedListOf<ContactData> currentModelState = app.getModel().getContacts();
     
     //compare states
-    assertThat(currentDBState, equalTo(currentModelState));
-    assertThat(currentDBState, equalTo(currentUIState));
+	if("yes".equals(app.getProperty("check.db"))){
+		assertThat(currentModelState, equalTo(currentDBState));
+	}		
+	if("yes".equals(app.getProperty("check.ui"))){
+		assertThat(currentModelState, equalTo(currentUIState));
+	}		
+	if("yes".equals(app.getProperty("check.db_to_ui"))){
+		assertThat(currentDBState, equalTo(currentUIState));
+	}
   }
   
 }

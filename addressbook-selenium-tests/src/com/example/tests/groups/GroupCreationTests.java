@@ -30,7 +30,8 @@ public class GroupCreationTests extends TestBase{
     
     //actions
     app.getGroupHelper().createGroup(groupCreationData);
-	    
+	
+    
     //save new state from UI
     SortedListOf<GroupData> currentUIState = app.getGroupHelper().getGroups();
     //save new state from DB
@@ -38,9 +39,18 @@ public class GroupCreationTests extends TestBase{
     //save new state from Model
     SortedListOf<GroupData> currentModelState = app.getModel().getGroups();
     
+    
     //compare states
-    assertThat(currentDBState, equalTo(currentModelState));
-    assertThat(currentDBState, equalTo(currentUIState));
+    if("yes".equals(app.getProperty("check.db"))){
+    	assertThat(currentModelState, equalTo(currentDBState));
+    }
+    if("yes".equals(app.getProperty("check.ui"))){
+    	assertThat(currentModelState, equalTo(currentUIState));
+    }
+    
+    if("yes".equals(app.getProperty("check.db_to_ui"))){
+    	assertThat(currentDBState, equalTo(currentUIState));
+    }
   }
   
 }

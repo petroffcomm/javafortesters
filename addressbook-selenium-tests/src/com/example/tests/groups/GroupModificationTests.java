@@ -11,7 +11,7 @@ import com.example.utils.SortedListOf;
 public class GroupModificationTests extends TestBase{
 	
 	@Test(dataProvider = "randomValidGroupGenerator")
-	public void modifySomeGroup(GroupData groupModificationData){	    
+	public void modifySomeGroup(GroupData groupModificationData){
 		//save old state from DB
 		SortedListOf<GroupData> oldList = app.getModel().getGroups();
 		
@@ -23,18 +23,25 @@ public class GroupModificationTests extends TestBase{
 		//modify group
 		GroupData uiFilledgroupBeforeModification = app.getGroupHelper().modifyGroup(index, groupModificationData);
 		//check, that UI form have the same field values as in corresponding DB-record  
-		assertThat(dbFilledGroupBeforeModification, samePropertyValuesAs(uiFilledgroupBeforeModification));	    
+		assertThat(dbFilledGroupBeforeModification, samePropertyValuesAs(uiFilledgroupBeforeModification));
 		
-	    //save new state from UI
-	    SortedListOf<GroupData> currentUIState = app.getGroupHelper().getGroups();
-	    //save new state from DB
-	    SortedListOf<GroupData> currentDBState = app.getGroupsFromDB();
-	    //save new state from Model
-	    SortedListOf<GroupData> currentModelState = app.getModel().getGroups();
+		//save new state from UI
+		SortedListOf<GroupData> currentUIState = app.getGroupHelper().getGroups();
+		//save new state from DB
+		SortedListOf<GroupData> currentDBState = app.getGroupsFromDB();
+		//save new state from Model
+		SortedListOf<GroupData> currentModelState = app.getModel().getGroups();
 		
 		//compare states
-		assertThat(currentDBState, equalTo(currentModelState));
-		assertThat(currentDBState, equalTo(currentUIState));
+		if("yes".equals(app.getProperty("check.db"))){
+			assertThat(currentModelState, equalTo(currentDBState));
+		}		
+		if("yes".equals(app.getProperty("check.ui"))){
+			assertThat(currentModelState, equalTo(currentUIState));
+		}		
+		if("yes".equals(app.getProperty("check.db_to_ui"))){
+			assertThat(currentDBState, equalTo(currentUIState));
+		}
 	}
 	
 }
