@@ -10,13 +10,12 @@ import org.apache.commons.net.ftp.FTPFile;
 
 public class FtpHelper extends BaseHelper{
 
+	private FTPClient ftp;
+	public static Logger log = Logger.getLogger(FtpHelper.class.getName());
+	
 	public FtpHelper(ApplicationManager manager) {
 		super(manager);
 	}
-
-	public static Logger log = Logger.getLogger(FtpHelper.class.getName());
-
-	private FTPClient ftp;
 
 	private void initFtpConnection() {
 		String ftpserver = manager.getProperty("ftp.host");
@@ -127,6 +126,32 @@ public class FtpHelper extends BaseHelper{
 		}
 		
 		closeFtpConnection();		
+	}
+
+	public void restoreConfig() {
+		String configFile = manager.getProperty("ftp.configFile");
+		
+		initFtpConnection();
+		try {
+			// Check if there is backup of config file
+			boolean backupExists = false;
+			FTPFile[] files = ftp.listFiles();
+			
+			for (int i = 0; i < files.length; i++) {
+				if (files[i].getName().equals(configFile + ".bak")) {
+					backupExists = true;
+					break;
+				}
+			}
+			
+			if (backupExists) {
+				ftp.deleteFile(configFile);
+				ftp.rename(configFile + ".bak", configFile);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

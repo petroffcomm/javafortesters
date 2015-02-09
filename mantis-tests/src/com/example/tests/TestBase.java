@@ -27,12 +27,20 @@ public class TestBase {
 		String configFile = System.getProperty("configFile", "config\\application.properties");
 		Properties properties = new Properties();
 		properties.load(new FileReader(new File(configFile)));
+		
 		app = new ApplicationManager(properties);
-	  }
+		
+		app.getFtpHelper().installConfigWithoutCaptcha();
+	}
+	
+	/*@BeforeClass
+	public void setConfig(){
+		app.getFtpHelper().installConfigWithoutCaptcha();
+	}*/
 	
 	@AfterTest
 	public void tearDown() throws Exception {
 		app.stop();
-	  }
+	}
 	
 }

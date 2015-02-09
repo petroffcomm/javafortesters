@@ -34,7 +34,13 @@ public class ApplicationManager {
 	}
 
 	public void stop() {
-	    driver.quit();
+		if (driver != null){
+			driver.quit();
+			
+			//Test configuration file is set by test-class, but manager should always restore
+			//configuration file after finishing all tests.
+			getFtpHelper().restoreConfig();
+		}
 	}
 	
 	public HibernateHelper getHibernateHelper(){
