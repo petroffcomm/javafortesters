@@ -4,6 +4,7 @@ import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterGroups;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -49,12 +50,8 @@ public class SignupTest extends TestBase {
 	
 	@Test(groups = {"needLogout"})
 	public void newUserShouldSignUp(){
-		try{
-			acctHelper.signup(user);
-			assertTrue(acctHelper.isLoginSuccessful(user));
-		}finally{
-			acctHelper.doMantisLogout();
-		}
+		acctHelper.signup(user);
+		assertTrue(acctHelper.isLoginSuccessful(user));
 	}
 
 	@Test(dependsOnMethods = {"newUserShouldSignUp"})
@@ -67,6 +64,11 @@ public class SignupTest extends TestBase {
 		}
 		//This will trigger if "catch"-section will not trigger.
 		fail("Existing user signed up.");
+	}
+	
+	@AfterGroups(groups = {"needLogout"})
+	public void doMantisLogout(){
+		acctHelper.doMantisLogout();
 	}
 	
 	@AfterClass
