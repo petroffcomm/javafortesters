@@ -14,9 +14,10 @@ public class uxConnectionTest extends TestBase {
 												.withPassword("mzadmin");
 		
 		app.getRemoteConnectionHelper().login(userConnectData);
-		app.getRemoteConnectionHelper().runCommand("mkdir conntestdirectory");
+		app.getRemoteConnectionHelper().runCommand("rmdir conntestdirectory");
 		app.getRemoteConnectionHelper().runCommand("ls -l");
 		//app.getRemoteConnectionHelper().runCommand("mzsh ppetrov/dr wflist");
+		//app.getRemoteConnectionHelper().runCommand("mzsh");
 		app.getRemoteConnectionHelper().closeRemoteConnection();
 	}
 

@@ -2,64 +2,87 @@ package com.ssh.fw;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import com.jcraft.jsch.ChannelExec;
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.Session;
+import ch.ethz.ssh2.Connection;
+import ch.ethz.ssh2.Session;
+import ch.ethz.ssh2.StreamGobbler;
+
 
 public class RemoteConnectionHelper extends BaseHelper {
 
-	private Session sshSession;
+	private Connection sshConnection;
 	
 	public RemoteConnectionHelper(ApplicationManager manager) {
 		super(manager);
 	}
 
 	public RemoteConnectionHelper login(SSHConnectData connectData) {
-		JSch jsch = new JSch();
+		sshConnection = new Connection(connectData.host);
 		
-		try {
-			sshSession = jsch.getSession(connectData.getLogin(), connectData.getHostAddr(), 22);
-			sshSession.setUserInfo(connectData);
-			sshSession.connect();
-		} catch (JSchException e) {
-			e.printStackTrace();
+		try {			
+			sshConnection.connect();
+			
+			boolean isConnected = sshConnection.authenticateWithPassword(connectData.login, connectData.password);
+            System.out.println("------\nConnection result: " + isConnected + "\n------");
+            
+		} catch (IOException e) {
+			throw new RuntimeException("An exception occurred while trying to connect to the host: " + connectData.host + ", Exception = " + e.getMessage(), e);
 		}
 		
 		return this;		
 	}
 
 	public RemoteConnectionHelper runCommand(String command) {
-		if(sshSession.isConnected()){
-			
+		if(sshConnection.isAuthenticationComplete()){
 			try {
-				ChannelExec channel = (ChannelExec) sshSession.openChannel("exec");
-				channel.setCommand(command);
+				// Open a session
+				Session sshSession = sshConnection.openSession();
+				sshSession.requestPTY("xterm");
 				
-				channel.setInputStream(null);
-				channel.setErrStream(System.err);
-				BufferedReader br = new BufferedReader(
-										new InputStreamReader(channel.getInputStream()));
+				// Execute the command
+				sshSession.execCommand( command );
 				
-				channel.connect();
-												
-				String line = null;
-				while ((line = br.readLine()) != null){
-					System.out.println(line);
-					
-					try {
-						Thread.sleep(50);
-					} catch (Exception ee) {
-					}
-				}				
+				// Read the results
+				StringBuilder commandOutput = new StringBuilder();				
+				InputStream stdOut = new StreamGobbler(sshSession.getStdout());				
+				BufferedReader shellOutput = new BufferedReader(new InputStreamReader(stdOut));
 				
-				channel.disconnect();
-			} catch (JSchException | IOException e) {
-				e.printStackTrace();
+				StringBuilder commandErrors = new StringBuilder();
+				InputStream stdErr = new StreamGobbler(sshSession.getStderr());				
+				BufferedReader shellErrors = new BufferedReader(new InputStreamReader(stdErr));
+				
+				String outLine = shellOutput.readLine();
+				while( outLine != null )
+				{
+					commandOutput.append( outLine + "\n" );
+					outLine = shellOutput.readLine();
+				}
+				
+				String errLine = shellErrors.readLine();
+				while( errLine != null )
+				{
+					commandErrors.append( errLine + "\n" );
+				    errLine = shellErrors.readLine();
+				}
+
+				// DEBUG: dump the exit code
+				System.out.println( "------\nExitCode: " + sshSession.getExitStatus() +"\n------" );
+
+				// Close the session
+				sshSession.close();
+				
+				// Print the results to the caller
+				if (commandErrors.length() != 0){
+					System.out.println(commandErrors.toString());
+				}
+				if (commandOutput.length() != 0) {
+					System.out.println(commandOutput.toString());
+				}
+			} catch (IOException e) {
+				throw new RuntimeException("An exception occurred while trying to execute the following command: " + command + ", Exception = " + e.getMessage(), e);
 			}
-			
 		}else{
 			throw new RuntimeException("You aren't logged in to any server");
 		}
@@ -67,8 +90,8 @@ public class RemoteConnectionHelper extends BaseHelper {
 	}
 
 	public void closeRemoteConnection() {
-		if(sshSession.isConnected()){
-			sshSession.disconnect();
+		if(sshConnection.isAuthenticationComplete()){
+			sshConnection.close();
 		}
 	}
 

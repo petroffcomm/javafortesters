@@ -5,8 +5,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/commons-net"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/hamcrest"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/TestNG"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JSch"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/ganymed-ssh2"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Jcabi-ssh"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

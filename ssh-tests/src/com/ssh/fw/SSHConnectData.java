@@ -1,12 +1,10 @@
 package com.ssh.fw;
 
-import com.jcraft.jsch.*;
+public class SSHConnectData {
 
-public class SSHConnectData implements UserInfo {
-
-	private String host;
-	private String login;
-	private String password;
+	public String host;
+	public String login;
+	public String password;
 	
 	public SSHConnectData toHost(String host) {
 		this.host = host;
@@ -23,12 +21,10 @@ public class SSHConnectData implements UserInfo {
 		return this;
 	}
 
-	@Override
 	public String getPassphrase() {
 		return null;
 	}
 
-	@Override
 	public String getPassword() {
 		return password;
 	}
@@ -39,25 +35,6 @@ public class SSHConnectData implements UserInfo {
 	
 	public String getHostAddr() {
 		return host;
-	}
-
-	@Override
-	public boolean promptPassword(String message) {
-		return true; //password is always filled
-	}
-
-	@Override
-	public boolean promptPassphrase(String message) {
-		return true;
-	}
-
-	@Override
-	public boolean promptYesNo(String message) {
-		return true;
-	}
-
-	@Override
-	public void showMessage(String message) {		
 	}
 
 }
