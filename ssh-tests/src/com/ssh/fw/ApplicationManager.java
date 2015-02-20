@@ -10,7 +10,8 @@ public class ApplicationManager {
 	private Properties properties;	
 
 	private FtpHelper ftpHelper;
-	private RemoteConnectionHelper remoteConnectionHelper;
+	private MzshHelper mzshHelper;
+	private SSHConnectionHelper remoteConnectionHelper;
 
 	public ApplicationManager(Properties properties){
 		this.properties = properties;
@@ -28,6 +29,10 @@ public class ApplicationManager {
 			ftpHelper.closeFtpConnection();
 		}
 		
+		if (mzshHelper != null) {
+			mzshHelper.closeConnection();
+		}
+		
 		if (remoteConnectionHelper != null) {
 			remoteConnectionHelper.closeRemoteConnection();
 		}		
@@ -40,9 +45,16 @@ public class ApplicationManager {
 		return ftpHelper;
 	}
 	
-	public RemoteConnectionHelper getRemoteConnectionHelper() {
+	public MzshHelper getMzshHelper() {
+		if (mzshHelper == null) {
+			mzshHelper = new MzshHelper(this);
+		}
+		return mzshHelper;
+	}
+	
+	public SSHConnectionHelper getSSHConnectionHelper() {
 		if (remoteConnectionHelper == null) {
-			remoteConnectionHelper = new RemoteConnectionHelper(this);
+			remoteConnectionHelper = new SSHConnectionHelper(this);
 		}
 		return remoteConnectionHelper;
 	}

@@ -2,12 +2,20 @@ package com.ssh.tests;
 
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Properties;
 
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.DataProvider;
 
 import com.ssh.fw.ApplicationManager;
+import com.ssh.fw.MZTargetSubsystems;
+import com.ssh.fw.MZWorkflowConfigData;
+import com.thoughtworks.xstream.XStream;
 
 public class TestBase {
 	
@@ -29,12 +37,33 @@ public class TestBase {
 		properties.load(new FileReader(new File(configFile)));
 		
 		app = new ApplicationManager(properties);
-	}
-	
+	}	
 
 	@AfterTest
 	public void tearDown() throws Exception {
 		app.stop();
+	}
+	
+	@DataProvider
+	public static Iterator<Object[]> loadWfList() throws IOException {
+		XStream xmlStream = new XStream();
+		xmlStream.alias("subsystem", MZTargetSubsystems.class);
+		xmlStream.alias("workflow", MZWorkflowConfigData.class);
+		
+		File configFile = new File(app.getProperty("wflist.cfg"));
+		
+		xmlStream.fromXML(configFile);
+		//(List<MZWorkflowConfigData>)
+		
+		List<Object[]> list = new ArrayList<Object[]>();
+		
+		List<MZTargetSubsystems> wfSubsystems = (List<MZTargetSubsystems>)xmlStream;
+		
+		for (MZTargetSubsystems configInfo : wfSubsystems) {
+			list.add(new Object[]{configInfo});
+		}
+		
+		return list.iterator();
 	}
 	
 }

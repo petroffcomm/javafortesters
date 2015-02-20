@@ -1,12 +1,19 @@
 package com.ssh.fw;
 
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Logger;
 
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
+import org.yaml.snakeyaml.reader.StreamReader;
+
+import static org.apache.commons.net.ftp.FTP.BINARY_FILE_TYPE;
+
 
 public class FtpHelper extends BaseHelper{
 
@@ -21,7 +28,7 @@ public class FtpHelper extends BaseHelper{
 		String ftpserver = manager.getProperty("ftp.host");
 		String login = manager.getProperty("ftp.login");
 		String password = manager.getProperty("ftp.password");
-		String appPath = manager.getProperty("ftp.appPath");
+		String rootDir = manager.getProperty("ftp.rootDir");
 
 		if (ftp == null) {
 			ftp = new FTPClient();
@@ -33,56 +40,14 @@ public class FtpHelper extends BaseHelper{
 		try {
 			ftp.connect(ftpserver);
 		    ftp.login(login, password);
-			ftp.changeWorkingDirectory(appPath);
+			ftp.changeWorkingDirectory(rootDir);
+			ftp.mode(BINARY_FILE_TYPE);
 
 	    } catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void backupFile(String file, String fileBackup) {
-		initFtpConnection();
-		try {
-			// Check if there is backup of config file
-			boolean backupExists = false;
-			FTPFile[] files = ftp.listFiles();
-			for (int i = 0; i < files.length; i++) {
-				if (files[i].getName().equals(fileBackup)) {
-					backupExists = true;
-					break;
-				}
-			}
-			if (!backupExists) {
-				ftp.rename(file, fileBackup);
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void restoreFile(String fileBackup, String file) {
-		initFtpConnection();
-		try {
-			// Check if there is backup of config file
-			boolean backupExists = false;
-			FTPFile[] files = ftp.listFiles();
-			for (int i = 0; i < files.length; i++) {
-				if (files[i].getName().equals(fileBackup)) {
-					backupExists = true;
-					break;
-				}
-			}
-			if (backupExists) {
-				ftp.deleteFile(file);
-				ftp.rename(fileBackup, file);
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
 	public void uploadFile(InputStream in, String targetFile) {
 		initFtpConnection();
 		try {
@@ -91,6 +56,38 @@ public class FtpHelper extends BaseHelper{
 			e.printStackTrace();
 		}
 	}
+	
+	public void uploadFile(String sourceFile, String targetFile) {
+		initFtpConnection();
+		try {
+			ftp.storeFile(targetFile, new FileInputStream(sourceFile));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void uploadFile(String sourceDir, String targetDir, String fileName) {
+		initFtpConnection();
+		try {
+			ftp.storeFile(targetDir + fileName, new FileInputStream(sourceDir + fileName));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void downloadFile(InputStream in, String targetFile) {
+		initFtpConnection();
+		try {
+			ftp.storeFile(targetFile, in);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void downloadFiles(String sourceFolder) {
+		initFtpConnection();
+	}
+
 	
 	public void closeFtpConnection() {
 		try {
@@ -127,31 +124,4 @@ public class FtpHelper extends BaseHelper{
 		
 		closeFtpConnection();		
 	}
-
-	public void restoreConfig() {
-		String configFile = manager.getProperty("ftp.configFile");
-		
-		initFtpConnection();
-		try {
-			// Check if there is backup of config file
-			boolean backupExists = false;
-			FTPFile[] files = ftp.listFiles();
-			
-			for (int i = 0; i < files.length; i++) {
-				if (files[i].getName().equals(configFile + ".bak")) {
-					backupExists = true;
-					break;
-				}
-			}
-			
-			if (backupExists) {
-				ftp.deleteFile(configFile);
-				ftp.rename(configFile + ".bak", configFile);
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
 }

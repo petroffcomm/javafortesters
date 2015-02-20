@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<list>
+	<subsystem>
+		<name>mzu_20_protek</name>
+		<workflows>
+			<workflow>
+				<wfName>ZTE-MSS_Protek_Converter</wfName>
+				<wfInstance>production_wf</wfInstance>
+				<wfInputFolder>/cdrs/work/in/protek/zte_mss</wfInputFolder>
+				<wfOutputFolder>/cdrs/work/out/protek/zte_mss</wfOutputFolder>
+			</workflow>
+		</workflows>
+	</subsystem>
+</list>
