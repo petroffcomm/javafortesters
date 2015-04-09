@@ -1,0 +1,30 @@
+<list>
+  <submitSM>
+    <serviceType></serviceType>
+    <sourceAddr>9008</sourceAddr>
+    <destAddr>794E58B94D9F</destAddr>
+    <replaceIfPresentFlag>0</replaceIfPresentFlag>
+    <protocolId>0</protocolId>
+    <priorityFlag>0</priorityFlag>
+    <esmClass>0</esmClass>
+    <registeredDelivery>1</registeredDelivery>
+    <scheduleDeliveryTime>000000170000000R</scheduleDeliveryTime>
+    <validityPeriod>000001000000000R</validityPeriod>
+    <dataCoding>0</dataCoding>
+    <shortMessage>Test submitSM</shortMessage>
+  </submitSM>
+    <submitSM>
+    <serviceType></serviceType>
+    <sourceAddr>9008</sourceAddr>
+    <destAddr>794E58B94D9F</destAddr>
+    <replaceIfPresentFlag>0</replaceIfPresentFlag>
+    <protocolId>0</protocolId>
+    <priorityFlag>0</priorityFlag>
+    <esmClass>0</esmClass>
+    <registeredDelivery>1</registeredDelivery>
+    <scheduleDeliveryTime>auto</scheduleDeliveryTime>
+    <validityPeriod>auto</validityPeriod>
+    <dataCoding>8</dataCoding>
+    <shortMessage>Русский текст</shortMessage>
+  </submitSM>
+</list>
