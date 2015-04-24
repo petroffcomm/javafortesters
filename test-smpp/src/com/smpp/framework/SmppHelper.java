@@ -18,6 +18,7 @@ import org.smpp.pdu.SubmitSMResp;
 import org.smpp.pdu.UnbindResp;
 import org.smpp.pdu.WrongDateFormatException;
 
+import com.google.common.base.CaseFormat;
 import com.smpp.tests.submits.SubmitSmData;
 
 public class SmppHelper extends BaseHelper {
@@ -156,20 +157,29 @@ public class SmppHelper extends BaseHelper {
 			
 			// set values
 			submitReq.setServiceType(submitData.serviceType);
+			submitReq.setEsmClass(submitData.esmClass);
+			submitReq.setProtocolId(submitData.protocolId);
+			submitReq.setPriorityFlag(submitData.priorityFlag);
+			submitReq.setReplaceIfPresentFlag(submitData.replaceIfPresentFlag);
+			submitReq.setRegisteredDelivery(submitData.registeredDelivery);
+			
 			submitReq.setSourceAddr(Data.GSM_TON_UNKNOWN, Data.GSM_NPI_E164, submitData.sourceAddr);
 			submitReq.setDestAddr(Data.GSM_TON_INTERNATIONAL, Data.GSM_NPI_E164, submitData.destAddr);
-			submitReq.setReplaceIfPresentFlag(submitData.replaceIfPresentFlag);
-			submitReq.setShortMessage(submitData.shortMessage, Data.ENC_UTF8);
-			
 			setSmppDates(submitReq, submitData);
 			//submitReq.setScheduleDeliveryTime(submitData.scheduleDeliveryTime);
 			//submitReq.setValidityPeriod(submitData.validityPeriod);
 			
-			submitReq.setEsmClass(submitData.esmClass);
-			submitReq.setProtocolId(submitData.protocolId);
-			submitReq.setPriorityFlag(submitData.priorityFlag);
-			submitReq.setRegisteredDelivery(submitData.registeredDelivery);
 			submitReq.setDataCoding(submitData.dataCoding);
+			String smppMsgEncoding;
+			
+			switch (submitData.dataCoding){
+				case 0x00: smppMsgEncoding = Data.ENC_UTF8; break;
+				case 0x03: smppMsgEncoding = Data.ENC_ISO8859_1; break;
+				case 0x08: smppMsgEncoding = Data.ENC_UTF16_LE; break;
+				default: smppMsgEncoding = Data.ENC_UTF8;
+			}
+			
+			submitReq.setShortMessage(submitData.shortMessage, smppMsgEncoding);				
 			submitReq.setSmDefaultMsgId(submitData.smDefaultMsgId);
 			
 			// send the request

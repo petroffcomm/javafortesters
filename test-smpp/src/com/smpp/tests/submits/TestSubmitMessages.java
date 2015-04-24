@@ -29,6 +29,7 @@ public class TestSubmitMessages extends TestBase{
 	@Test(dataProvider = "submitsFromFile")
 	public void sendSubmit(SubmitSmData submitData){
 		app.getSmppHelper().sendSubmitSm(submitData);
+		//System.out.println(submitData.toString());
 	}
 	
 	@AfterClass
